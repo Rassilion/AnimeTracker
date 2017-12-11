@@ -6,7 +6,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
-
+    <string name="tab1">Anime</string>
+    <string name="tab2">Manga</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -506,4 +507,6 @@
 
 
     <string name="unknown">unknown</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
