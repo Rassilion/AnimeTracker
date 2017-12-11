@@ -5,7 +5,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
 
+import com.denizkemal.animetracker.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -59,7 +61,6 @@ public class APIHelper {
             response = responseBody.execute();
             return response.isSuccessful();
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
         }
@@ -75,7 +76,41 @@ public class APIHelper {
      * @param e          The exception which was caught
      */
     public static void logE(Activity activity, Response response, String className, String methodName, Exception e) {
-
+       /* if (response != null && activity != null) {
+            AppLog.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + response.message());
+            switch (response.code()) {
+                case 400: // Bad Request
+                    Theme.Snackbar(activity, R.string.toast_error_api);
+                    break;
+                case 401: // Unauthorized
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): User is not logged in");
+                    Theme.Snackbar(activity, R.string.toast_info_password);
+                    break;
+                case 404: // Not Found
+                    if (methodName.contains("search"))
+                        Theme.Snackbar(activity, R.string.toast_error_nothingFound);
+                    else
+                        Theme.Snackbar(activity, R.string.toast_error_Records);
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Error while getting records");
+                    break;
+                case 500: // Internal Server Error
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Internal server error, API bug?");
+                    Theme.Snackbar(activity, R.string.toast_error_api);
+                    break;
+                case 503: // Service Unavailable
+                case 504: // Gateway Timeout
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Gateway Timeout");
+                    Theme.Snackbar(activity, R.string.toast_error_maintenance);
+                    break;
+                default:
+                    Theme.Snackbar(activity, R.string.toast_error_Records);
+                    AppLog.log(Log.ERROR, "Atarashii", className + ".doInBackground(): Unknown API error: " + response.code() + ": " + response.message());
+                    break;
+            }
+        } else {
+            AppLog.log(Log.ERROR, "Atarashii", className + "." + methodName + "(): " + e.getMessage());
+        }
+        AppLog.logException(e);*/
         e.printStackTrace();
     }
 

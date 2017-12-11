@@ -34,5 +34,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'org.apache.commons:commons-lang3:3.4'
     provided 'org.projectlombok:lombok:1.16.12'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
     testCompile 'junit:junit:4.12'
 }

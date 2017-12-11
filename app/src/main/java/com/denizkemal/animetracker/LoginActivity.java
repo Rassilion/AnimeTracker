@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.denizkemal.animetracker.api.BaseModels.AnimeManga.UserList;
 import com.denizkemal.animetracker.api.MALApi;
 
 import java.util.ArrayList;
@@ -315,6 +316,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             } catch (Exception e) {
                 return false;
             }
+
             Boolean response =  api.isAuth();
             return response;
         }

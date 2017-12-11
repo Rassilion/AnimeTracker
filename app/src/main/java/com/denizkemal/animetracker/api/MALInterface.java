@@ -1,5 +1,5 @@
 package com.denizkemal.animetracker.api;
-/*
+
 import com.denizkemal.animetracker.api.MALModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.MALModels.AnimeManga.AnimeList;
 import com.denizkemal.animetracker.api.MALModels.AnimeManga.Manga;
@@ -9,7 +9,7 @@ import com.denizkemal.animetracker.api.MALModels.AnimeManga.Schedule;
 import com.denizkemal.animetracker.api.MALModels.ForumMain;
 import com.denizkemal.animetracker.api.MALModels.Profile;
 import com.denizkemal.animetracker.api.MALModels.Recommendations;
-*/
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -27,9 +27,9 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 interface MALInterface {
-    @GET("account/verify_credentials")
+    @GET("api/account/verify_credentials.xml")
     Call<ResponseBody> verifyAuthentication();
-/*
+
     @GET("anime/{anime_id}")
     Call<Anime> getAnime(@Path("anime_id") int anime_id, @Query("mine") int mine);
 
@@ -146,5 +146,4 @@ interface MALInterface {
 
     @GET("manga/top")
     Call<ArrayList<Manga>> getTopRatedManga(@Query("page") int page);
-    */
 }
