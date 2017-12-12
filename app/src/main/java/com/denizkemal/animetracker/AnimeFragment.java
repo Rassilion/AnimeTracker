@@ -18,8 +18,9 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 
-import com.denizkemal.animetracker.api.MALModels.AnimeManga.Anime;
+import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.MALApi;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -73,7 +74,12 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                 tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
                 ImageView image = new ImageView(getContext());
-                image.setBackgroundResource(R.drawable.ic_naruto);
+                Picasso.with(getContext())
+                        .load(anime.getImageUrl())
+                        .error(R.drawable.ic_naruto)
+                        .into(image);
+
+
                 TableLayout.LayoutParams lp =
                         new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
                 image.setLayoutParams(new TableRow.LayoutParams(400,400));
