@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
+import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
 import com.squareup.picasso.Picasso;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class DetailsActivity extends AppCompatActivity {
     public ImageView image;
     public TextView Synopsis;
     public Anime currentAnime;
+    public Manga currentManga;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,17 +40,36 @@ public class DetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int a = intent.getIntExtra("index",0);
         String s = Integer.toString(a);
-        currentAnime =  AnimeFragment.animeList.get(a);
-        Toast.makeText(this, currentAnime.getTitle(),Toast.LENGTH_SHORT).show();
-        nameLabel = (TextView)findViewById(R.id.nameLabel);
-        nameLabel.setText(currentAnime.getTitle());
-        image = (ImageView)findViewById(R.id.logo);
-        Picasso.with(this)
-                .load(currentAnime.getImageUrl())
-                .error(R.drawable.ic_naruto)
-                .into(image);
-        Synopsis = (TextView)findViewById(R.id.synopsis);
-        Synopsis.setText(currentAnime.getSynopsisString());
+        String type = intent.getStringExtra("type");
+        if (type.equals("anime")){
+
+            currentAnime =  AnimeFragment.animeList.get(a);
+            Toast.makeText(this, currentAnime.getTitle(),Toast.LENGTH_SHORT).show();
+            nameLabel = (TextView)findViewById(R.id.nameLabel);
+            nameLabel.setText(currentAnime.getTitle());
+            image = (ImageView)findViewById(R.id.logo);
+            Picasso.with(this)
+                    .load(currentAnime.getImageUrl())
+                    .error(R.drawable.ic_naruto)
+                    .into(image);
+            Synopsis = (TextView)findViewById(R.id.synopsis);
+            Synopsis.setText(currentAnime.getSynopsisString());
+        }
+        else if (type.equals("manga")){
+            currentManga =  MangaFragment.mangaList.get(a);
+
+            Toast.makeText(this, currentManga.getTitle(),Toast.LENGTH_SHORT).show();
+            nameLabel = (TextView)findViewById(R.id.nameLabel);
+            nameLabel.setText(currentManga.getTitle());
+            image = (ImageView)findViewById(R.id.logo);
+            Picasso.with(this)
+                    .load(currentManga.getImageUrl())
+                    .error(R.drawable.ic_naruto)
+                    .into(image);
+            Synopsis = (TextView)findViewById(R.id.synopsis);
+            Synopsis.setText(currentManga.getSynopsisString());
+        }
+
     }
 
 }
