@@ -308,6 +308,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mPassword = password;
         }
 
+
+
         @Override
         protected Boolean doInBackground(Void... params) {
             MALApi api;
@@ -331,6 +333,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 Intent myIntent = new Intent(LoginActivity.this,MainActivity.class);
                 myIntent.putExtra("user",mEmail);
                 myIntent.putExtra("pw",mPassword);
+                User.pw=mPassword;
+                User.username=mEmail;
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
