@@ -1,0 +1,21 @@
+package com.denizkemal.animetracker;
+
+public enum TaskJob {
+    GETLIST,
+    GETFRIENDLIST,
+    BROWSE,
+    FORCESYNC,
+    GETMOSTPOPULAR,
+    GETMOSTPOPULARS,
+    GETMOSTPOPULARY,
+    GETTOPRATED,
+    GETTOPRATEDS,
+    GETTOPRATEDY,
+    GETJUSTADDED,
+    GETUPCOMING,
+    GETDETAILS,
+    UPDATE,
+    REVIEWS,
+    RECOMMENDATION,
+    SEARCH
+}

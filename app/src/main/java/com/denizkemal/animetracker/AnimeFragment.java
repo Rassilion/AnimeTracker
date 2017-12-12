@@ -1,9 +1,11 @@
 package com.denizkemal.animetracker;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,18 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
+
+import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
+import com.denizkemal.animetracker.api.BaseModels.AnimeManga.UserList;
+import com.denizkemal.animetracker.api.MALApi;
+
+import java.util.ArrayList;
+
 /**
  * Created by sagop on 11.12.2017.
  */
 
-public class AnimeFragment extends Fragment {
+public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskListener {
     TableLayout animeTable;
 
 
@@ -36,6 +45,8 @@ public class AnimeFragment extends Fragment {
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+
+        new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"rassilion");
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
         TableRow tr = new TableRow(getContext());
         tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
@@ -50,4 +61,22 @@ public class AnimeFragment extends Fragment {
         animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
     }
 
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+        ArrayList resultList = null;
+        try {
+            if (type == MALApi.ListType.ANIME)
+                resultList = (ArrayList<Anime>) result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            resultList = null;
+        }
+        if (resultList != null) {
+
+        }
+    }
+    @Override
+    public void onNetworkTaskError(TaskJob job){
+
+    }
 }
