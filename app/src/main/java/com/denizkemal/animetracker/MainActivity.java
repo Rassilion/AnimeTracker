@@ -32,16 +32,17 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,NetworkTask.NetworkTaskListener  {
     private DrawerLayout mDrawerLayout;
-    private ImageView navAvatar;
-    private TextView name;
+    private NavigationView mNavigationView;
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
         if(job==TaskJob.GETPROFILE) {
             User.user = (Profile) result;
-
+            View header=mNavigationView.getHeaderView(0);
+            TextView name = (TextView)header.findViewById(R.id.username_textView);
+            ImageView navAvatar = (ImageView) header.findViewById(R.id.imageView);
             name.setText(User.username);
-            Picasso.with(this)
+            Picasso.with(header.getContext())
                     .load(User.user.getImageUrl())
                     .into(navAvatar);
         }
@@ -78,14 +79,8 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        View header=navigationView.getHeaderView(0);
-        name = (TextView)header.findViewById(R.id.username_textView);
-
-        name.setText("sfasfasf");
-        navAvatar = (ImageView) header.findViewById(R.id.imageView);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
