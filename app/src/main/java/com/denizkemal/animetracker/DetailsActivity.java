@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -85,11 +86,11 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         if (type.equals(MALApi.ListType.ANIME)) {
             currentAnime = (Anime) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(currentAnime.getSynopsisString());
+            Synopsis.setText(Html.fromHtml(currentAnime.getSynopsisString()));
         }else{
             currentManga = (Manga) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(currentManga.getSynopsisString());
+            Synopsis.setText(Html.fromHtml(currentManga.getSynopsisString()));
         }
     }
 
