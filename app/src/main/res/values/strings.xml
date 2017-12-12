@@ -8,6 +8,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="tab1">Anime</string>
     <string name="tab2">Manga</string>
+    <string name="LoadingMessage">Loading...</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Username</string>
     <string name="prompt_password">Password</string>
