@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,17 +50,30 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
 
         new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"rassilion");
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
-        TableRow tr = new TableRow(getContext());
-        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-/* Create a Button to be the row-content. */
-        Button b = new Button(getContext());
-        b.setText("Dynamic Button");
-        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-/* Add Button to row. */
-        tr.addView(b);
-/* Add row to TableLayout. */
-//tr.setBackgroundResource(R.drawable.sf_gradient_03);
-        animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.FILL_PARENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        animeTable.setColumnShrinkable(1,true);
+        for (int i = 0; i < 25 ; i++) {
+            TableRow tr = new TableRow(getContext());
+            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+            ImageView image = new ImageView(getContext());
+            image.setBackgroundResource(R.drawable.ic_naruto);
+            TableLayout.LayoutParams lp =
+                    new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            image.setLayoutParams(new TableRow.LayoutParams(400,400));
+            tr.addView(image);
+            TextView tw = new TextView(getContext());
+            tw.setText("DenizGezginErenSözenKemalBAysarıilkerbağcı");
+            tw.setSingleLine(false);
+            TableRow.LayoutParams tableRowParams=
+                    new TableRow.LayoutParams
+                            (TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+            tableRowParams.setMargins(30,150,30,150);
+            tw.setLayoutParams(tableRowParams);
+            //tw.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+            tr.addView(tw);
+            animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+        }
+
     }
 
     @Override
