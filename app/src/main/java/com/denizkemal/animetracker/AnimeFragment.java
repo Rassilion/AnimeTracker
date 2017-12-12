@@ -51,34 +51,14 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
         new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"rassilion");
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
         animeTable.setColumnShrinkable(1,true);
-        for (int i = 0; i < 25 ; i++) {
-            TableRow tr = new TableRow(getContext());
-            tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-            ImageView image = new ImageView(getContext());
-            image.setBackgroundResource(R.drawable.ic_naruto);
-            TableLayout.LayoutParams lp =
-                    new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-            image.setLayoutParams(new TableRow.LayoutParams(400,400));
-            tr.addView(image);
-            TextView tw = new TextView(getContext());
-            tw.setText("DenizGezginErenSözenKemalBAysarıilkerbağcı");
-            tw.setSingleLine(false);
-            TableRow.LayoutParams tableRowParams=
-                    new TableRow.LayoutParams
-                            (TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-            tableRowParams.setMargins(30,150,30,150);
-            tw.setLayoutParams(tableRowParams);
-            //tw.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.FILL_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-            tr.addView(tw);
-            animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
-        }
 
     }
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
-        ArrayList resultList = null;
+        int listLimit = 50;
+        ArrayList<Anime> resultList = null;
         try {
             if (type == MALApi.ListType.ANIME)
                 resultList = (ArrayList<Anime>) result;
@@ -87,6 +67,34 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
             resultList = null;
         }
         if (resultList != null) {
+            for (Anime anime: resultList) {
+                listLimit --;
+                if(listLimit < 0)
+                {
+                    break;   /// TODO : Remove listlimit
+                }
+                TableRow tr = new TableRow(getContext());
+                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+                ImageView image = new ImageView(getContext());
+                image.setBackgroundResource(R.drawable.ic_naruto);
+                TableLayout.LayoutParams lp =
+                        new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                image.setLayoutParams(new TableRow.LayoutParams(400,400));
+                tr.addView(image);
+                TextView tw = new TextView(getContext());
+                tw.setText(anime.getTitle());
+                tw.setSingleLine(false);
+                TableRow.LayoutParams tableRowParams=
+                        new TableRow.LayoutParams
+                                (TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                tableRowParams.setMargins(30,150,30,150);
+                tw.setLayoutParams(tableRowParams);
+
+                tr.addView(tw);
+                animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+
+            }
 
         }
     }
