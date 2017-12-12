@@ -18,15 +18,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
 
-import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
-import com.denizkemal.animetracker.api.BaseModels.AnimeManga.UserList;
+import com.denizkemal.animetracker.api.MALModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.MALApi;
 
 import java.util.ArrayList;
 
-/**
- * Created by sagop on 11.12.2017.
- */
 
 public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskListener {
     TableLayout animeTable;
