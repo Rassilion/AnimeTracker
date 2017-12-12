@@ -1,6 +1,7 @@
 package com.denizkemal.animetracker;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,9 +14,11 @@ import android.widget.Toast;
 
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
+import com.denizkemal.animetracker.api.MALApi;
 import com.squareup.picasso.Picasso;
 
-public class DetailsActivity extends AppCompatActivity {
+
+public class DetailsActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener {
 
     public TextView nameLabel;
     public ImageView image;
@@ -44,6 +47,10 @@ public class DetailsActivity extends AppCompatActivity {
         if (type.equals("anime")){
 
             currentAnime =  AnimeFragment.animeList.get(a);
+            Bundle data =new Bundle();
+            data.putInt("recordID",currentAnime.getId());
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
             Toast.makeText(this, currentAnime.getTitle(),Toast.LENGTH_SHORT).show();
             nameLabel = (TextView)findViewById(R.id.nameLabel);
             nameLabel.setText(currentAnime.getTitle());
@@ -57,6 +64,9 @@ public class DetailsActivity extends AppCompatActivity {
         }
         else if (type.equals("manga")){
             currentManga =  MangaFragment.mangaList.get(a);
+            Bundle data =new Bundle();
+            data.putInt("recordID",currentManga.getId());
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
 
             Toast.makeText(this, currentManga.getTitle(),Toast.LENGTH_SHORT).show();
             nameLabel = (TextView)findViewById(R.id.nameLabel);
@@ -66,10 +76,26 @@ public class DetailsActivity extends AppCompatActivity {
                     .load(currentManga.getImageUrl())
                     .error(R.drawable.ic_naruto)
                     .into(image);
-            Synopsis = (TextView)findViewById(R.id.synopsis);
-            Synopsis.setText(currentManga.getSynopsisString());
+
         }
 
+    }
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+        if (type.equals(MALApi.ListType.ANIME)) {
+            currentAnime = (Anime) result;
+            Synopsis = (TextView) findViewById(R.id.synopsis);
+            Synopsis.setText(currentAnime.getSynopsisString());
+        }else{
+            currentManga = (Manga) result;
+            Synopsis = (TextView) findViewById(R.id.synopsis);
+            Synopsis.setText(currentManga.getSynopsisString());
+        }
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job){
+        Synopsis.setText("error");
     }
 
 }

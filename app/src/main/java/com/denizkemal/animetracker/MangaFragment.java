@@ -40,7 +40,7 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        new NetworkTask(MALApi.ListType.MANGA,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"rassilion");
+        new NetworkTask(MALApi.ListType.MANGA,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
         mangaTable = (TableLayout) getView().findViewById(R.id.mangaTable);
         mangaTable.setColumnShrinkable(1,true);
 

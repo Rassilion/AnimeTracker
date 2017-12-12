@@ -1,7 +1,7 @@
 package com.denizkemal.animetracker;
 
 public enum TaskJob {
-    GETLIST,
+    GETPROFILE,
     GETFRIENDLIST,
     BROWSE,
     FORCESYNC,

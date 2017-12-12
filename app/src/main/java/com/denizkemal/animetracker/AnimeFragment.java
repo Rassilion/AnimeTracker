@@ -50,7 +50,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
 
-        new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"rassilion");
+        new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
         animeTable.setColumnShrinkable(1,true);
 

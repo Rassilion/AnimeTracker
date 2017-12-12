@@ -1,6 +1,7 @@
 package com.denizkemal.animetracker;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,16 +17,41 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+
+import com.denizkemal.animetracker.api.MALApi;
+import com.denizkemal.animetracker.api.BaseModels.Profile;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,NetworkTask.NetworkTaskListener  {
     private DrawerLayout mDrawerLayout;
+    private ImageView navAvatar;
+    private TextView name;
+
+    @Override
+    public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+        if(job==TaskJob.GETPROFILE) {
+            User.user = (Profile) result;
+
+            name.setText(User.username);
+            Picasso.with(this)
+                    .load(User.user.getImageUrl())
+                    .into(navAvatar);
+        }
+    }
+
+    @Override
+    public void onNetworkTaskError(TaskJob job){
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +80,13 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
-        TextView name = (TextView)header.findViewById(R.id.username_textView);
 
-        name.setText(message.get("user").toString());
+        View header=navigationView.getHeaderView(0);
+        name = (TextView)header.findViewById(R.id.username_textView);
+
+        name.setText("sfasfasf");
+        navAvatar = (ImageView) header.findViewById(R.id.imageView);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -69,6 +98,8 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        new NetworkTask(TaskJob.GETPROFILE,MALApi.ListType.ANIME,this,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
     }
     // Adapter for the viewpager using FragmentPagerAdapter
     class ViewPagerAdapter extends FragmentPagerAdapter {

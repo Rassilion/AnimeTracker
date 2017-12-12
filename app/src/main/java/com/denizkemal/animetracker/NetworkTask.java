@@ -26,7 +26,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     private NetworkTaskListener callback;
     private Object taskResult;
     private HashMap<String, String> Qdata;
-    private final TaskJob[] arrayTasks = {TaskJob.GETLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
+    private final TaskJob[] arrayTasks = {TaskJob.GETFRIENDLIST, TaskJob.FORCESYNC, TaskJob.GETMOSTPOPULAR, TaskJob.GETTOPRATED,
             TaskJob.GETJUSTADDED, TaskJob.GETUPCOMING, TaskJob.SEARCH, TaskJob.REVIEWS};
 
 
@@ -45,6 +45,16 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.type = type;
         this.activity = activity;
         this.Qdata = Qdata;
+        this.callback = callback;
+    }
+
+    public NetworkTask(TaskJob job,MALApi.ListType type, Context context, NetworkTaskListener callback) {
+        if (type == null || context == null)
+            throw new IllegalArgumentException("job, type and context must not be null");
+        this.job = job;
+        this.type = type;
+        this.context = context;
+        this.data = new Bundle();
         this.callback = callback;
     }
 
@@ -77,7 +87,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
            return null;
         }
 
-        if (!isNetworkAvailable && !job.equals(TaskJob.GETLIST) && !job.equals(TaskJob.GETDETAILS)) {
+        if (!isNetworkAvailable && !job.equals(TaskJob.GETFRIENDLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
                 //Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
             return null;
@@ -92,6 +102,9 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
         try {
             switch (job) {
+                case GETPROFILE:
+                    taskResult = cManager.getProfile(params[0]);
+                    break;
                 case BROWSE:
                     taskResult = isAnimeTask() ? cManager.getBrowseAnime(Qdata) : cManager.getBrowseManga(Qdata);
                     break;
@@ -185,7 +198,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                 return isArrayList() ? new ArrayList<>() : null;
         } catch (Exception e) {
             //AppLog.logTaskCrash("NetworkTask", "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
-            return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETLIST) ? new ArrayList<>() : null;
+            return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETFRIENDLIST) ? new ArrayList<>() : null;
         }
         return taskResult;
     }
