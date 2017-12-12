@@ -1,6 +1,7 @@
 package com.denizkemal.animetracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,9 +18,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Toast;
 
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.MALApi;
+import com.denizkemal.animetracker.api.MALModels.AnimeManga.AnimeList;
+import com.denizkemal.animetracker.api.MALModels.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,6 +31,7 @@ import java.util.ArrayList;
 
 public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskListener {
     TableLayout animeTable;
+    public static ArrayList<Anime> animeList;
 
 
     @Override
@@ -50,6 +55,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
         animeTable.setColumnShrinkable(1,true);
 
 
+
     }
 
     @Override
@@ -64,14 +70,28 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
             resultList = null;
         }
         if (resultList != null) {
+            animeList = resultList;
             for (Anime anime: resultList) {
                 listLimit --;
                 if(listLimit < 0)
                 {
                     break;   /// TODO : Remove listlimit
                 }
-                TableRow tr = new TableRow(getContext());
-                tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+                final TableRow tr = new TableRow(getContext());
+                tr.setOnClickListener( new View.OnClickListener() {
+                    @Override
+                    public void onClick( View v ) {
+                        int a = animeTable.indexOfChild(v);
+
+                        Intent animeIntent = new Intent(getContext(), DetailsActivity.class);
+                        animeIntent.putExtra("index", a);
+                        getContext().startActivity(animeIntent);
+                    }
+                } );
+                TableRow.LayoutParams marginsRows=
+                        new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                marginsRows.setMargins(0,30,0,30);
+                tr.setLayoutParams(marginsRows);
 
                 ImageView image = new ImageView(getContext());
                 Picasso.with(getContext())
@@ -80,9 +100,10 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                         .into(image);
 
 
-                TableLayout.LayoutParams lp =
-                        new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                image.setLayoutParams(new TableRow.LayoutParams(400,400));
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(400,400);
+                lp.setMargins(0,0,20,0);
+                image.setLayoutParams(lp);
+
                 tr.addView(image);
                 TextView tw = new TextView(getContext());
                 tw.setText(anime.getTitle());
@@ -94,6 +115,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                 tw.setLayoutParams(tableRowParams);
 
                 tr.addView(tw);
+
                 animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
             }
