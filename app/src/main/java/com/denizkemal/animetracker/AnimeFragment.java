@@ -23,8 +23,6 @@ import android.widget.Toast;
 
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.MALApi;
-import com.denizkemal.animetracker.api.MALModels.AnimeManga.AnimeList;
-import com.denizkemal.animetracker.api.MALModels.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
