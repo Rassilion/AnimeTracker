@@ -40,6 +40,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
     public Anime currentAnime;
     public Manga currentManga;
     String currentType;
+    public boolean isNew;
     String[] allStatus = { "Completed" ,"On-hold", "Dropped",
             "Watching", "Plan to watch", "Reading","Plan to read" };
     @Override
@@ -64,11 +65,19 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         currentType = type;
         if (type.equals("anime")){
 
+
             currentAnime = (Anime) intent.getSerializableExtra("object");
             Bundle data =new Bundle();
             data.putInt("recordID",currentAnime.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
-
+            if (currentAnime.getStatus() == null)
+            {
+                isNew = true;
+            }
+            else
+            {
+                isNew = false;
+            }
             Toast.makeText(this, currentAnime.getTitle(),Toast.LENGTH_SHORT).show();
             nameLabel = (TextView)findViewById(R.id.nameLabel);
             nameLabel.setText(currentAnime.getTitle());
@@ -77,36 +86,39 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                     .load(currentAnime.getImageUrl())
                     .error(R.drawable.ic_naruto)
                     .into(image);
-
-            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
-
-
-            // Create an ArrayAdapter using the string array and a default spinner layout
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.animeStatus, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            statusSpinner.setAdapter(adapter);
-
-            statusSpinner.setSelection(adapter.getPosition(currentAnime.getWatchedStatus()));
+            if(isNew == false)
+            {
+                Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
 
 
-            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
-            epsWatched.setText( Integer.toString(currentAnime.getWatchedEpisodes()));
+                // Create an ArrayAdapter using the string array and a default spinner layout
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                        R.array.animeStatus, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                statusSpinner.setAdapter(adapter);
 
-            TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
-            epsTotal.setText("/" +Integer.toString(currentAnime.getEpisodes()));
+                statusSpinner.setSelection(adapter.getPosition(currentAnime.getWatchedStatus()));
 
-            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
-            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                    R.array.scores, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            yourScore.setAdapter(adapter1);
 
-            yourScore.setSelection(adapter1.getPosition(Integer.toString(currentAnime.getScore())));
+                EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+                epsWatched.setText( Integer.toString(currentAnime.getWatchedEpisodes()));
+
+                TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+                epsTotal.setText("/" +Integer.toString(currentAnime.getEpisodes()));
+
+                Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+                ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                        R.array.scores, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                yourScore.setAdapter(adapter1);
+
+                yourScore.setSelection(adapter1.getPosition(Integer.toString(currentAnime.getScore())));
+            }
+
 
         }
         else if (type.equals("manga")){
@@ -114,7 +126,14 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             Bundle data =new Bundle();
             data.putInt("recordID",currentManga.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
-
+            if (currentManga.getStatus() == null)
+            {
+                isNew = true;
+            }
+            else
+            {
+                isNew = false;
+            }
             Toast.makeText(this, currentManga.getTitle(),Toast.LENGTH_SHORT).show();
             nameLabel = (TextView)findViewById(R.id.nameLabel);
             nameLabel.setText(currentManga.getTitle());
@@ -123,34 +142,39 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                     .load(currentManga.getImageUrl())
                     .error(R.drawable.ic_naruto)
                     .into(image);
-            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+
+            if(isNew == false)
+            {
+                Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
 
 
-            // Create an ArrayAdapter using the string array and a default spinner layout
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                    R.array.mangaStatus, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            statusSpinner.setAdapter(adapter);
+                // Create an ArrayAdapter using the string array and a default spinner layout
+                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                        R.array.mangaStatus, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                statusSpinner.setAdapter(adapter);
 
-            statusSpinner.setSelection(adapter.getPosition(currentManga.getReadStatus()));
+                statusSpinner.setSelection(adapter.getPosition(currentManga.getReadStatus()));
 
-           EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
-            epsWatched.setText( Integer.toString(currentManga.getChaptersRead()));
+                EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+                epsWatched.setText( Integer.toString(currentManga.getChaptersRead()));
 
-           TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
-           epsTotal.setText("/" +Integer.toString(currentManga.getChapters()));
+                TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+                epsTotal.setText("/" +Integer.toString(currentManga.getChapters()));
 
-            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
-            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                    R.array.scores, android.R.layout.simple_spinner_item);
-            // Specify the layout to use when the list of choices appears
-            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            yourScore.setAdapter(adapter1);
+                Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+                ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                        R.array.scores, android.R.layout.simple_spinner_item);
+                // Specify the layout to use when the list of choices appears
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                yourScore.setAdapter(adapter1);
 
-            yourScore.setSelection(adapter1.getPosition(Integer.toString(currentManga.getScore())));
+                yourScore.setSelection(adapter1.getPosition(Integer.toString(currentManga.getScore())));
+            }
+
 
 
         }
