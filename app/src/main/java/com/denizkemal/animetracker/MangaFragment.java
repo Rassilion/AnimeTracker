@@ -67,6 +67,7 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+        mangaTable.removeAllViewsInLayout();
         int listLimit = 50;
         ArrayList<Manga> resultList = null;
         try {

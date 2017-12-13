@@ -79,6 +79,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+        animeTable.removeAllViewsInLayout();
         int listLimit = 50;
         ArrayList<Anime> resultList = null;
         try {
