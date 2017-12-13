@@ -9,7 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,9 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
     public TextView statusLabel;
     public Anime currentAnime;
     public Manga currentManga;
+    String currentType;
+    String[] allStatus = { "Completed" ,"On-hold", "Dropped",
+            "Watching", "Plan to watch", "Reading","Plan to read" };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         int a = intent.getIntExtra("index",0);
         String s = Integer.toString(a);
         String type = intent.getStringExtra("type");
+        currentType = type;
         if (type.equals("anime")){
 
             currentAnime = (Anime) intent.getSerializableExtra("object");
@@ -70,6 +78,36 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                     .error(R.drawable.ic_naruto)
                     .into(image);
 
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+
+
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.animeStatus, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            statusSpinner.setAdapter(adapter);
+
+            statusSpinner.setSelection(adapter.getPosition(currentAnime.getWatchedStatus()));
+
+
+            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            epsWatched.setText( Integer.toString(currentAnime.getWatchedEpisodes()));
+
+            TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+            epsTotal.setText("/" +Integer.toString(currentAnime.getEpisodes()));
+
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                    R.array.scores, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            yourScore.setAdapter(adapter1);
+
+            yourScore.setSelection(adapter1.getPosition(Integer.toString(currentAnime.getScore())));
+
         }
         else if (type.equals("manga")){
             currentManga = (Manga) intent.getSerializableExtra("object");
@@ -85,63 +123,116 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                     .load(currentManga.getImageUrl())
                     .error(R.drawable.ic_naruto)
                     .into(image);
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
 
+
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.mangaStatus, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            statusSpinner.setAdapter(adapter);
+
+            statusSpinner.setSelection(adapter.getPosition(currentManga.getReadStatus()));
+
+           EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            epsWatched.setText( Integer.toString(currentManga.getChaptersRead()));
+
+           TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+           epsTotal.setText("/" +Integer.toString(currentManga.getChapters()));
+
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                    R.array.scores, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            yourScore.setAdapter(adapter1);
+
+            yourScore.setSelection(adapter1.getPosition(Integer.toString(currentManga.getScore())));
+
+
+        }
+
+    }
+    public void updateButtonClicked(View view)
+    {
+        Toast.makeText(this, "Updated",Toast.LENGTH_SHORT).show();
+        System.out.println("Updated");
+        if(currentType.equals("anime"))
+        {
+            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+            currentAnime.setWatchedEpisodes(Integer.parseInt(epsWatched.getText().toString()));
+            currentAnime.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
+            currentAnime.setWatchedStatus(statusSpinner.getSelectedItem().toString());
+        }
+        else
+        {
+            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+           currentManga.setChaptersRead(Integer.parseInt(epsWatched.getText().toString()));
+            currentManga.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
+            currentManga.setReadStatus(statusSpinner.getSelectedItem().toString());
         }
 
     }
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
         if (type.equals(MALApi.ListType.ANIME)) {
-            currentAnime = (Anime) result;
+            Anime anime = (Anime) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(Html.fromHtml(currentAnime.getSynopsisString()));
+            Synopsis.setText(Html.fromHtml(anime.getSynopsisString()));
 
 
             episodes = (TextView) findViewById(R.id.episodes);
-            episodes.setText(Integer.toString(currentAnime.getEpisodes()));
+            episodes.setText(Integer.toString(anime.getEpisodes()));
 
             rankPoint = (TextView) findViewById(R.id.rankPoint);
-            rankPoint.setText(Integer.toString(currentAnime.getRank()));
+            rankPoint.setText(Integer.toString(anime.getRank()));
 
             avaregePoint =(TextView) findViewById(R.id.avaragePoint);
-            avaregePoint.setText(currentAnime.getAverageScore() + " / 10");
+            avaregePoint.setText(anime.getAverageScore() + " / 10");
 
             avarageCount = (TextView) findViewById(R.id.avarageCount);
-            avarageCount.setText(currentAnime.getAverageScoreCount());
+            avarageCount.setText(anime.getAverageScoreCount());
 
             typeOf = (TextView) findViewById(R.id.typeLabel);
-            typeOf.setText(currentAnime.getType());
+            typeOf.setText(anime.getType());
 
             String openingMusic="";
-            for (String items:currentAnime.getOpeningTheme()) {
+            for (String items:anime.getOpeningTheme()) {
                 openingMusic +=(items + "\n");
             }
             openingTheme = (TextView) findViewById(R.id.openingLabel);
             openingTheme.setText(openingMusic);
 
             statusLabel = (TextView)findViewById(R.id.statusLabel);
-            statusLabel.setText(currentAnime.getStatus());
+            statusLabel.setText(anime.getStatus());
 
 
         }else{
-            currentManga = (Manga) result;
+            Manga manga = (Manga) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(Html.fromHtml(currentManga.getSynopsisString()));
+            Synopsis.setText(Html.fromHtml(manga.getSynopsisString()));
 
             episodes = (TextView) findViewById(R.id.episodes);
-            episodes.setText(Integer.toString(currentManga.getChapters()));
+            episodes.setText(Integer.toString(manga.getChapters()));
 
             rankPoint = (TextView) findViewById(R.id.rankPoint);
-            rankPoint.setText(Integer.toString(currentManga.getRank()));
+            rankPoint.setText(Integer.toString(manga.getRank()));
 
             avaregePoint =(TextView) findViewById(R.id.avaragePoint);
-            avaregePoint.setText(currentManga.getAverageScore() + " / 10");
+            avaregePoint.setText(manga.getAverageScore() + " / 10");
 
             avarageCount = (TextView) findViewById(R.id.avarageCount);
-            avarageCount.setText(currentManga.getAverageScoreCount());
+            avarageCount.setText(manga.getAverageScoreCount());
 
             typeOf = (TextView) findViewById(R.id.typeLabel);
-            typeOf.setText(currentManga.getType());
+            typeOf.setText(manga.getType());
         /*
             String openingMusic="";
             for (String items:currentManga.getOpeningTheme()) {
@@ -151,7 +242,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             openingTheme.setText(openingMusic);*/
 
             statusLabel = (TextView)findViewById(R.id.statusLabel);
-            statusLabel.setText(currentManga.getStatus());
+            statusLabel.setText(manga.getStatus());
         }
     }
 
