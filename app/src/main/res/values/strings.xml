@@ -22,6 +22,16 @@
         completions."
     </string>
 
+    <!-- All (Toast) Strings -->
+    <string name="toast_error_noConnectivity">No network connection detected.</string>
+    <string name="toast_error_api">API error detected, please notify the developers!</string>
+    <string name="toast_error_maintenance">API unavailable, maintenance in progress!</string>
+    <string name="toast_error_Records">Error while getting records. Please try again later.</string>
+    <string name="toast_error_nothingFound">No anime or manga results found.</string>
+    <string name="toast_info_password">Username and password combination doesn\'t match!</string>
+
+
+
     <string-array name="classificationArray">
         <item>G - All Ages</item>
         <item>PG - Children</item>

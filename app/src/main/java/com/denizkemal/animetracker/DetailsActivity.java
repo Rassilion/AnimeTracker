@@ -157,7 +157,6 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
 
     @Override
     public void onNetworkTaskError(TaskJob job){
-        Synopsis.setText("error");
     }
 
 }

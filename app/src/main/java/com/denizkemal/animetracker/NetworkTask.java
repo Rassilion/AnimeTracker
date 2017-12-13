@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.denizkemal.animetracker.R;
@@ -89,7 +90,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
         if (!isNetworkAvailable && !job.equals(TaskJob.GETFRIENDLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
-                //Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -98,7 +99,13 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             page = data.getInt("page", 1);
 
         taskResult = null;
-        MALApi cManager = new MALApi(User.username,User.pw);
+        MALApi cManager;
+        if (activity!=null){
+            cManager = new MALApi(activity);
+
+        }else{
+            cManager = new MALApi();
+        }
 
         try {
             switch (job) {
@@ -154,7 +161,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             } else if (record != null) {
                                 taskResult = record;
                             } else {
-                                //Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             // Get Manga from database
@@ -171,7 +178,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             } else if (record != null) {
                                 taskResult = record;
                             } else {
-                                //Theme.Snackbar(activity, R.string.toast_error_noConnectivity);
+                                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
                             }
                         }
                     break;
@@ -188,7 +195,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                         taskResult = isAnimeTask() ? cManager.getAnimeRecs(Integer.parseInt(params[0])) : cManager.getMangaRecs(Integer.parseInt(params[0]));
                     break;
                 default:
-                    //AppLog.log(Log.ERROR, "Atarashii", "NetworkTask.doInBackground(): " + String.format("%s-task invalid job identifier %s", type.toString(), job.name()));
+                    break;//TODO error
             }
             /* if result is still null at this point there was no error but the API returned an empty result
              * (e. g. an empty anime-/mangalist), so create an empty list to let the callback know that
@@ -197,7 +204,6 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
             if (taskResult == null)
                 return isArrayList() ? new ArrayList<>() : null;
         } catch (Exception e) {
-            //AppLog.logTaskCrash("NetworkTask", "doInBackground(): " + String.format("%s-task error on job %s", type.toString(), job.name()), e);
             return isArrayList() && !job.equals(TaskJob.FORCESYNC) && !job.equals(TaskJob.GETFRIENDLIST) ? new ArrayList<>() : null;
         }
         return taskResult;

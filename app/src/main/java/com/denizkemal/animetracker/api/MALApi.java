@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 
+import com.denizkemal.animetracker.User;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Reviews;
@@ -37,13 +38,14 @@ public class MALApi {
     private MALInterface MALservice;
 
     public MALApi() {
-        //setupRESTService(AccountService.getUsername(), AccountService.getPassword());
+        setupRESTService(User.username, User.pw);
     }
 
     public MALApi(Activity activity) {
         this.activity = activity;
-        //setupRESTService(AccountService.getUsername(), AccountService.getPassword());
+        setupRESTService(User.username, User.pw);
     }
+
 
     /*
      * Only use for verifying.
