@@ -25,7 +25,7 @@ public class UpdateTask extends AsyncTask<GenericRecord, Void, Boolean> {
         MALApi manager = new MALApi(activity);
 
         if (isNetworkAvailable)
-            error = manager.isAuth();
+            error = !manager.isAuth();
 
         try {
             // Sync details if there is network connection
@@ -37,6 +37,8 @@ public class UpdateTask extends AsyncTask<GenericRecord, Void, Boolean> {
                 }
             }
         } catch (Exception e) {
+
+            e.printStackTrace();
             error = true;
         }
 
@@ -59,5 +61,6 @@ public class UpdateTask extends AsyncTask<GenericRecord, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
+        System.out.println("1");
     }
 }
