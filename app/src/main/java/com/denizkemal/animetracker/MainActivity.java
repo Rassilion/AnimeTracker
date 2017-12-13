@@ -82,6 +82,10 @@ public class MainActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
+        View header=mNavigationView.getHeaderView(0);
+        TextView name = (TextView)header.findViewById(R.id.username_textView);
+        name.setText(User.username);
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +32,15 @@ import java.util.ArrayList;
 
 public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskListener {
     TableLayout animeTable;
+    private SwipeRefreshLayout swipeContainer;
+
     public static ArrayList<Anime> animeList;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -53,6 +57,23 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
         new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
         animeTable.setColumnShrinkable(1,true);
+
+        swipeContainer = (SwipeRefreshLayout) getView().findViewById(R.id.swipeContainer);
+        swipeContainer.setRefreshing(true);
+        final AnimeFragment h=this;
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new NetworkTask(MALApi.ListType.ANIME,h.getContext(),h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
 
 
@@ -120,7 +141,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                 animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
             }
-
+            swipeContainer.setRefreshing(false);
         }
     }
     @Override

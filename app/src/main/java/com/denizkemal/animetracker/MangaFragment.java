@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskListener{
     TableLayout mangaTable;
     public static ArrayList<Manga> mangaList;
+    private SwipeRefreshLayout swipeContainer;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +46,21 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
         mangaTable = (TableLayout) getView().findViewById(R.id.mangaTable);
         mangaTable.setColumnShrinkable(1,true);
 
+        swipeContainer = (SwipeRefreshLayout) getView().findViewById(R.id.mswipeContainer);
+        swipeContainer.setRefreshing(true);
+        final MangaFragment h=this;
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new NetworkTask(MALApi.ListType.MANGA,h.getContext(),h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
 
 
     }
@@ -110,6 +127,7 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
                 mangaTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
 
             }
+            swipeContainer.setRefreshing(false);
 
         }
     }
