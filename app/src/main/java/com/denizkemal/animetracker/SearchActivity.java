@@ -101,13 +101,14 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
                     }
                     final TableRow tr = new TableRow(this);
                     final SearchActivity h = this;
+                    final ArrayList<Anime> finalResultList = resultList;
                     tr.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             int a = table.indexOfChild(v);
 
                             Intent animeIntent = new Intent(h, DetailsActivity.class);
-                            animeIntent.putExtra("index", a);
+                            animeIntent.putExtra("object", finalResultList.get(a));
                             animeIntent.putExtra("type", "anime");
                             h.startActivity(animeIntent);
                         }
@@ -163,13 +164,14 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
                     }
                     final TableRow tr = new TableRow(this);
                     final SearchActivity h = this;
+                    final ArrayList<Manga> finalResultList = resultList;
                     tr.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             int a = table.indexOfChild(v);
 
                             Intent animeIntent = new Intent(h, DetailsActivity.class);
-                            animeIntent.putExtra("index", a);
+                            animeIntent.putExtra("object", finalResultList.get(a));
                             animeIntent.putExtra("type", "manga");
                             h.startActivity(animeIntent);
                         }

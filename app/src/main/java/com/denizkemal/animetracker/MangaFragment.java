@@ -91,7 +91,7 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
                         int a = mangaTable.indexOfChild(v);
 
                         Intent animeIntent = new Intent(getContext(), DetailsActivity.class);
-                        animeIntent.putExtra("index", a);
+                        animeIntent.putExtra("object", mangaList.get(a));
                         animeIntent.putExtra("type", "manga");
                         getContext().startActivity(animeIntent);
                     }

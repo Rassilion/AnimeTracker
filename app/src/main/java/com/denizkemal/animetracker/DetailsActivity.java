@@ -56,7 +56,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         String type = intent.getStringExtra("type");
         if (type.equals("anime")){
 
-            currentAnime =  AnimeFragment.animeList.get(a);
+            currentAnime = (Anime) intent.getSerializableExtra("object");
             Bundle data =new Bundle();
             data.putInt("recordID",currentAnime.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
@@ -72,7 +72,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
 
         }
         else if (type.equals("manga")){
-            currentManga =  MangaFragment.mangaList.get(a);
+            currentManga = (Manga) intent.getSerializableExtra("object");
             Bundle data =new Bundle();
             data.putInt("recordID",currentManga.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);

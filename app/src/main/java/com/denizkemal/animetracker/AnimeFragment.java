@@ -105,7 +105,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                         int a = animeTable.indexOfChild(v);
 
                         Intent animeIntent = new Intent(getContext(), DetailsActivity.class);
-                        animeIntent.putExtra("index", a);
+                        animeIntent.putExtra("object", animeList.get(a));
                         animeIntent.putExtra("type", "anime");
                         getContext().startActivity(animeIntent);
                     }
