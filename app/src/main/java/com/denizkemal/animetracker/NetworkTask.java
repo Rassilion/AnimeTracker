@@ -153,7 +153,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                 // Get records from the website
                                 // Check for synopsis for relation.
                                 if (record == null || record.getImageUrl() == null)
-                                    record = cManager.getAnime(data.getInt("recordID", -1), 0);
+                                    record = cManager.getAnime(data.getInt("recordID", -1), 1);
 
 
                                     taskResult = record;
@@ -170,7 +170,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             if (isNetworkAvailable) {
                                 // Get records from the website
                                 if (record == null || record.getImageUrl() == null)
-                                    record = cManager.getManga(data.getInt("recordID", -1),0);
+                                    record = cManager.getManga(data.getInt("recordID", -1),1);
 
 
                                     taskResult = record;

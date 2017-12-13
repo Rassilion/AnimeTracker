@@ -183,56 +183,56 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
         if (type.equals(MALApi.ListType.ANIME)) {
-            Anime anime = (Anime) result;
+            currentAnime = (Anime) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(Html.fromHtml(anime.getSynopsisString()));
+            Synopsis.setText(Html.fromHtml(currentAnime.getSynopsisString()));
 
 
             episodes = (TextView) findViewById(R.id.episodes);
-            episodes.setText(Integer.toString(anime.getEpisodes()));
+            episodes.setText(Integer.toString(currentAnime.getEpisodes()));
 
             rankPoint = (TextView) findViewById(R.id.rankPoint);
-            rankPoint.setText(Integer.toString(anime.getRank()));
+            rankPoint.setText(Integer.toString(currentAnime.getRank()));
 
             avaregePoint =(TextView) findViewById(R.id.avaragePoint);
-            avaregePoint.setText(anime.getAverageScore() + " / 10");
+            avaregePoint.setText(currentAnime.getAverageScore() + " / 10");
 
             avarageCount = (TextView) findViewById(R.id.avarageCount);
-            avarageCount.setText(anime.getAverageScoreCount());
+            avarageCount.setText(currentAnime.getAverageScoreCount());
 
             typeOf = (TextView) findViewById(R.id.typeLabel);
-            typeOf.setText(anime.getType());
+            typeOf.setText(currentAnime.getType());
 
             String openingMusic="";
-            for (String items:anime.getOpeningTheme()) {
+            for (String items:currentAnime.getOpeningTheme()) {
                 openingMusic +=(items + "\n");
             }
             openingTheme = (TextView) findViewById(R.id.openingLabel);
             openingTheme.setText(openingMusic);
 
             statusLabel = (TextView)findViewById(R.id.statusLabel);
-            statusLabel.setText(anime.getStatus());
+            statusLabel.setText(currentAnime.getStatus());
 
 
         }else{
-            Manga manga = (Manga) result;
+            currentManga = (Manga) result;
             Synopsis = (TextView) findViewById(R.id.synopsis);
-            Synopsis.setText(Html.fromHtml(manga.getSynopsisString()));
+            Synopsis.setText(Html.fromHtml(currentManga.getSynopsisString()));
 
             episodes = (TextView) findViewById(R.id.episodes);
-            episodes.setText(Integer.toString(manga.getChapters()));
+            episodes.setText(Integer.toString(currentManga.getChapters()));
 
             rankPoint = (TextView) findViewById(R.id.rankPoint);
-            rankPoint.setText(Integer.toString(manga.getRank()));
+            rankPoint.setText(Integer.toString(currentManga.getRank()));
 
             avaregePoint =(TextView) findViewById(R.id.avaragePoint);
-            avaregePoint.setText(manga.getAverageScore() + " / 10");
+            avaregePoint.setText(currentManga.getAverageScore() + " / 10");
 
             avarageCount = (TextView) findViewById(R.id.avarageCount);
-            avarageCount.setText(manga.getAverageScoreCount());
+            avarageCount.setText(currentManga.getAverageScoreCount());
 
             typeOf = (TextView) findViewById(R.id.typeLabel);
-            typeOf.setText(manga.getType());
+            typeOf.setText(currentManga.getType());
         /*
             String openingMusic="";
             for (String items:currentManga.getOpeningTheme()) {
@@ -242,7 +242,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             openingTheme.setText(openingMusic);*/
 
             statusLabel = (TextView)findViewById(R.id.statusLabel);
-            statusLabel.setText(manga.getStatus());
+            statusLabel.setText(currentManga.getStatus());
         }
     }
 
