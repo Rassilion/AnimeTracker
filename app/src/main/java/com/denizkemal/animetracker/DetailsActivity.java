@@ -216,6 +216,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             }
             else
             {
+                currentAnime.setCreateFlag();
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Add");
 
@@ -288,6 +289,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             }
             else
             {
+                currentManga.setCreateFlag();
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Add");
 
