@@ -393,9 +393,7 @@ public class Anime extends GenericRecord implements Serializable {
         return getProducers() != null ? TextUtils.join(", ", getProducers()) : "";
     }
 
-    public void setWatchedStatus(int id) {
-        //setWatchedStatus(ContentManager.listSortFromInt(id, MALApi.ListType.ANIME));
-    }
+
 
     public int getStatusInt(String[] fixedStatus) {
         return Arrays.asList(fixedStatus).indexOf(getStatus());

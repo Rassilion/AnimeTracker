@@ -244,9 +244,7 @@ public class Manga extends GenericRecord implements Serializable {
         return getStringFromResourceArray(activity, R.array.mediaStatus_User, getUserStatusInt(getReadStatus()));
     }
 
-    public void setReadStatus(int id) {
-        //setReadStatus(ContentManager.listSortFromInt(id, MALApi.ListType.MANGA));
-    }
+
 
     public int getStatusInt(String[] fixedStatus) {
         return Arrays.asList(fixedStatus).indexOf(getStatus());
