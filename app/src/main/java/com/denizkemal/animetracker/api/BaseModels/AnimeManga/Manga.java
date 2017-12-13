@@ -124,7 +124,7 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setReadStatus(String readStatus) {
         if (this.readStatus == null || !this.readStatus.equals(readStatus)) {
-            this.readStatus = readStatus;
+            this.readStatus = readStatus.toLowerCase();
             if (!fromCursor) {
                 addDirtyField("readStatus");
                 checkProgress();

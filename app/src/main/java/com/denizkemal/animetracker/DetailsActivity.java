@@ -51,14 +51,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         Intent intent = getIntent();
         int a = intent.getIntExtra("index",0);
         String s = Integer.toString(a);
@@ -128,7 +121,6 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
     public void updateButtonClicked(View view)
     {
         Toast.makeText(this, "Updated",Toast.LENGTH_SHORT).show();
-        System.out.println("Updated");
         if(currentType.equals("anime"))
         {
             EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
@@ -137,15 +129,17 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             currentAnime.setWatchedEpisodes(Integer.parseInt(epsWatched.getText().toString()));
             currentAnime.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
             currentAnime.setWatchedStatus(statusSpinner.getSelectedItem().toString());
+            new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentAnime);
         }
         else
         {
             EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
             Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
             Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
-           currentManga.setChaptersRead(Integer.parseInt(epsWatched.getText().toString()));
+            currentManga.setChaptersRead(Integer.parseInt(epsWatched.getText().toString()));
             currentManga.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
             currentManga.setReadStatus(statusSpinner.getSelectedItem().toString());
+            new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentManga);
         }
 
     }
