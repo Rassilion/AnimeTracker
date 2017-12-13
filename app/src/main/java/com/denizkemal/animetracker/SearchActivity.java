@@ -83,6 +83,7 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
     }
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
+       table.removeAllViewsInLayout();
         if(type.equals(MALApi.ListType.ANIME)) {
             int listLimit = 50;
             ArrayList<Anime> resultList = null;
