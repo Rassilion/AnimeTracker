@@ -32,14 +32,6 @@
                     android:layout_marginBottom="20dp"
                     app:srcCompat="@drawable/ic_naruto" />
 
-                <Button
-                    android:id="@+id/addButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:onClick="addButtonClicked"
-                    android:text="ADD"
-                    android:visibility="invisible" />
-
                 <LinearLayout
                     android:id="@+id/editLayout"
                     android:layout_width="match_parent"

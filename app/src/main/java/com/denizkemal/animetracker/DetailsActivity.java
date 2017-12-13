@@ -182,49 +182,49 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             statusLabel = (TextView)findViewById(R.id.statusLabel);
             statusLabel.setText(currentAnime.getStatus());
 
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+
+
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.animeStatus, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            statusSpinner.setAdapter(adapter);
+            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            epsWatched.setText("0");
+            TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+            epsTotal.setText("/" +Integer.toString(currentAnime.getEpisodes()));
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                    R.array.scores, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            yourScore.setAdapter(adapter1);
             if(currentAnime.getWatchedStatus() != null)
             {
-                Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
 
 
-                // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                        R.array.animeStatus, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // Apply the adapter to the spinner
-                statusSpinner.setAdapter(adapter);
-
-                statusSpinner.setSelection(adapter.getPosition(currentAnime.getWatchedStatus()));
+                statusSpinner.setSelection(adapter.getPosition(currentAnime.getUserStatusString(this)));
 
 
-                EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+
                 epsWatched.setText( Integer.toString(currentAnime.getWatchedEpisodes()));
 
-                TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
-                epsTotal.setText("/" +Integer.toString(currentAnime.getEpisodes()));
-
-                Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
-                ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                        R.array.scores, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // Apply the adapter to the spinner
-                yourScore.setAdapter(adapter1);
 
                 yourScore.setSelection(adapter1.getPosition(Integer.toString(currentAnime.getScore())));
 
-                Button addBtn = (Button) findViewById(R.id.addButton);
-                addBtn.setVisibility(View.GONE);
-                LinearLayout editLayout = (LinearLayout)findViewById(R.id.editLayout);
-                editLayout.setVisibility(View.VISIBLE);
+                Button updateDetails = (Button)findViewById(R.id.updateDetails);
+                updateDetails.setText("Update");
+
             }
             else
             {
-                Button addBtn = (Button) findViewById(R.id.addButton);
-                addBtn.setVisibility(View.VISIBLE);
-                LinearLayout editLayout = (LinearLayout)findViewById(R.id.editLayout);
-                editLayout.setVisibility(View.GONE);
+                Button updateDetails = (Button)findViewById(R.id.updateDetails);
+                updateDetails.setText("Add");
+
             }
 
 
@@ -259,49 +259,44 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             statusLabel.setText(currentManga.getStatus());
 
 
+            Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
 
+
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                    R.array.mangaStatus, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            statusSpinner.setAdapter(adapter);
+            EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
+            epsWatched.setText("0");
+            TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
+            epsTotal.setText("/" +Integer.toString(currentManga.getChapters()));
+            Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
+                    R.array.scores, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            yourScore.setAdapter(adapter1);
             if(currentManga.getReadStatus() != null)
             {
-                Spinner statusSpinner = (Spinner) findViewById(R.id.statusSpiner);
+                statusSpinner.setSelection(adapter.getPosition(currentManga.getUserStatusString(this)));
 
-
-                // Create an ArrayAdapter using the string array and a default spinner layout
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                        R.array.mangaStatus, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // Apply the adapter to the spinner
-                statusSpinner.setAdapter(adapter);
-
-                statusSpinner.setSelection(adapter.getPosition(currentManga.getReadStatus()));
-
-                EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
                 epsWatched.setText( Integer.toString(currentManga.getChaptersRead()));
-
-                TextView epsTotal = (TextView)findViewById(R.id.totalEpisode);
-                epsTotal.setText("/" +Integer.toString(currentManga.getChapters()));
-
-                Spinner yourScore = (Spinner) findViewById(R.id.yourScore);
-                ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this,
-                        R.array.scores, android.R.layout.simple_spinner_item);
-                // Specify the layout to use when the list of choices appears
-                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                // Apply the adapter to the spinner
-                yourScore.setAdapter(adapter1);
 
                 yourScore.setSelection(adapter1.getPosition(Integer.toString(currentManga.getScore())));
 
-                Button addBtn = (Button) findViewById(R.id.addButton);
-                addBtn.setVisibility(View.GONE);
-                LinearLayout editLayout = (LinearLayout)findViewById(R.id.editLayout);
-                editLayout.setVisibility(View.VISIBLE);
+                Button updateDetails = (Button)findViewById(R.id.updateDetails);
+                updateDetails.setText("Update");
+
             }
             else
             {
-                Button addBtn = (Button) findViewById(R.id.addButton);
-                addBtn.setVisibility(View.VISIBLE);
-                LinearLayout editLayout = (LinearLayout)findViewById(R.id.editLayout);
-                editLayout.setVisibility(View.GONE);
+                Button updateDetails = (Button)findViewById(R.id.updateDetails);
+                updateDetails.setText("Add");
+
             }
         }
     }
