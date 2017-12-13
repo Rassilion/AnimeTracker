@@ -249,7 +249,11 @@ public class Anime extends GenericRecord implements Serializable {
 
     public void setWatchedStatus(String watchedStatus) {
         if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
-            this.watchedStatus = watchedStatus.toLowerCase();
+            if(watchedStatus!=null) {
+                this.watchedStatus = watchedStatus.toLowerCase();
+            }else{
+                this.watchedStatus = watchedStatus;
+            }
             if (!fromCursor) {
                 addDirtyField("watchedStatus");
                 checkProgress();
