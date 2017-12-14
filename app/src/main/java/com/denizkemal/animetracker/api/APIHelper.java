@@ -22,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class APIHelper {
     //It's not best practice to use internals, but there is no other good way to get the OkHttp default UA
     private static final String okUa = okhttp3.internal.Version.userAgent();
-    private static final String USER_AGENT = "Atarashii! (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
+    private static final String USER_AGENT = "AnimeTracker (Linux; Android " + Build.VERSION.RELEASE + "; " + Build.MODEL + " Build/" + Build.DISPLAY + ") " + okUa;
 
     /**
      * Init Retrofit client properly.
