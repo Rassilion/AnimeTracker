@@ -212,10 +212,14 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     @Override
     protected void onPostExecute(Object result) {
         if (callback != null) {
-            if (result != null)
-                callback.onNetworkTaskFinished(taskResult, job, type);
-            else
-                callback.onNetworkTaskError(job);
+            try {
+                if (result != null)
+                    callback.onNetworkTaskFinished(taskResult, job, type);
+                else
+                    callback.onNetworkTaskError(job);
+            }catch (NullPointerException e){
+                System.out.println("Activity dead:"+ e.getMessage());
+            }
         }
     }
 

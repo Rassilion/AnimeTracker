@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
+
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
         if (job == TaskJob.GETPROFILE) {
@@ -103,8 +104,15 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
         */
         // Insert the fragment by replacing any existing fragment
+
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, new myList()).commit();
+        Fragment fragment = fragmentManager.findFragmentByTag("myList");
+        if(fragment!=null){
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        }else{
+            fragment = new myList();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment, "myList").commit();
+        }
 
 
         new NetworkTask(TaskJob.GETPROFILE, MALApi.ListType.ANIME, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
@@ -177,15 +185,48 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        Fragment fragment;
+        FragmentManager fragmentManager = getSupportFragmentManager();
         int id = item.getItemId();
 
         if (id == R.id.nav_profile) {
-            // Handle the camera action
+            fragment = fragmentManager.findFragmentByTag("myProfile");
+            if(fragment!=null){
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            }else{
+                fragment=new myProfile();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment, "myProfile").commit();
+            }
         } else if (id == R.id.nav_list) {
+            fragment = fragmentManager.findFragmentByTag("myList");
+            if(fragment!=null){
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            }else{
+                fragment = new myList();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment, "myList").commit();
+            }
 
         } else if (id == R.id.nav_settings) {
-
+            fragment = fragmentManager.findFragmentByTag("myList");
+            if(fragment!=null){
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            }else{
+                fragment = new myList();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment, "myList").commit();
+            }
         }
+        else
+        {
+            fragment = fragmentManager.findFragmentByTag("myList");
+            if(fragment!=null){
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            }else{
+                fragment = new myList();
+                fragmentManager.beginTransaction().replace(R.id.flContent, fragment, "myList").commit();
+            }
+        }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
