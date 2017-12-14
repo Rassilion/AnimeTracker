@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
             name.setText(User.username);
             Picasso.with(header.getContext())
                     .load(User.user.getImageUrl())
+                    .transform(new RoundedTransformation(User.username)).fit()
                     .into(navAvatar);
         }
     }
