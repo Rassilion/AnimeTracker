@@ -71,23 +71,23 @@ public class MALApi {
 
     public ArrayList<Anime> searchAnime(String query, int page) {
 
-            HashMap<String, String> map = new HashMap<>();
-            map.put("keyword", query);
-            map.put("page", String.valueOf(page));
-            map.put("genre_type", "1");
-            map.put("genres", "Hentai");
-            return getBrowseAnime(checkNSFW(map));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("keyword", query);
+        map.put("page", String.valueOf(page));
+        map.put("genre_type", "1");
+        map.put("genres", "Hentai");
+        return getBrowseAnime(checkNSFW(map));
 
     }
 
     public ArrayList<Manga> searchManga(String query, int page) {
 
-            HashMap<String, String> map = new HashMap<>();
-            map.put("keyword", query);
-            map.put("page", String.valueOf(page));
-            map.put("genre_type", "1");
-            map.put("genres", "Hentai");
-            return getBrowseManga(checkNSFW(map));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("keyword", query);
+        map.put("page", String.valueOf(page));
+        map.put("genre_type", "1");
+        map.put("genres", "Hentai");
+        return getBrowseManga(checkNSFW(map));
 
     }
 

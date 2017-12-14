@@ -237,21 +237,27 @@ public class Anime extends GenericRecord implements Serializable {
     /**
      * External links.
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     public externalLinks externalLinks;
 
-    @Getter public static class externalLinks implements Serializable {
-        @Setter String officialSite;
-        @Setter String animeDB;
-        @Setter String animeNewsNetwork;
-        @Setter String wikipedia;
+    @Getter
+    public static class externalLinks implements Serializable {
+        @Setter
+        String officialSite;
+        @Setter
+        String animeDB;
+        @Setter
+        String animeNewsNetwork;
+        @Setter
+        String wikipedia;
     }
 
     public void setWatchedStatus(String watchedStatus) {
         if (this.watchedStatus == null || !this.watchedStatus.equals(watchedStatus)) {
-            if(watchedStatus!=null) {
+            if (watchedStatus != null) {
                 this.watchedStatus = watchedStatus.toLowerCase();
-            }else{
+            } else {
                 this.watchedStatus = watchedStatus;
             }
             if (!fromCursor) {
@@ -337,7 +343,7 @@ public class Anime extends GenericRecord implements Serializable {
             }
 
             // Automatically set the end date on completed if it is empty
-            if ((getWatchingEnd() == null || getWatchingEnd().equals("") || getWatchingEnd().equals("0-00-00")) ) {
+            if ((getWatchingEnd() == null || getWatchingEnd().equals("") || getWatchingEnd().equals("0-00-00"))) {
                 //setWatchingEnd(DateTools.getCurrentDate());
             }
         }
@@ -375,8 +381,8 @@ public class Anime extends GenericRecord implements Serializable {
     public String getStatusString(Activity activity) {
         int array;
         String[] fixedArray;
-            array = R.array.animeStatus_MAL;
-            fixedArray = activity.getResources().getStringArray(R.array.animeFixedStatus_MAL);
+        array = R.array.animeStatus_MAL;
+        fixedArray = activity.getResources().getStringArray(R.array.animeFixedStatus_MAL);
 
         return getStringFromResourceArray(activity, array, getStatusInt(fixedArray));
     }
@@ -396,7 +402,6 @@ public class Anime extends GenericRecord implements Serializable {
     public String getProducersString() {
         return getProducers() != null ? TextUtils.join(", ", getProducers()) : "";
     }
-
 
 
     public int getStatusInt(String[] fixedStatus) {

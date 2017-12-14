@@ -24,10 +24,11 @@ import java.util.ArrayList;
  * Created by sagop on 11.12.2017.
  */
 
-public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskListener{
+public class MangaFragment extends Fragment implements NetworkTask.NetworkTaskListener {
     TableLayout mangaTable;
     public static ArrayList<Manga> mangaList;
     private SwipeRefreshLayout swipeContainer;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +40,22 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.manga_fragment, container, false);
     }
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
 
-        new NetworkTask(MALApi.ListType.MANGA,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        new NetworkTask(MALApi.ListType.MANGA, getContext(), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
         mangaTable = (TableLayout) getView().findViewById(R.id.mangaTable);
-        mangaTable.setColumnShrinkable(1,true);
+        mangaTable.setColumnShrinkable(1, true);
 
         swipeContainer = (SwipeRefreshLayout) getView().findViewById(R.id.mswipeContainer);
         swipeContainer.setRefreshing(true);
-        final MangaFragment h=this;
+        final MangaFragment h = this;
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new NetworkTask(MALApi.ListType.MANGA,h.getContext(),h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+                new NetworkTask(MALApi.ListType.MANGA, h.getContext(), h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
             }
         });
         // Configure the refreshing colors
@@ -79,16 +81,15 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
         }
         if (resultList != null) {
             mangaList = resultList;
-            for (Manga anime: resultList) {
-                listLimit --;
-                if(listLimit < 0)
-                {
+            for (Manga anime : resultList) {
+                listLimit--;
+                if (listLimit < 0) {
                     break;   /// TODO : Remove listlimit
                 }
                 final TableRow tr = new TableRow(getContext());
-                tr.setOnClickListener( new View.OnClickListener() {
+                tr.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick( View v ) {
+                    public void onClick(View v) {
                         int a = mangaTable.indexOfChild(v);
 
                         Intent animeIntent = new Intent(getContext(), DetailsActivity.class);
@@ -96,10 +97,10 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
                         animeIntent.putExtra("type", "manga");
                         getContext().startActivity(animeIntent);
                     }
-                } );
-                TableLayout.LayoutParams marginsRows=
+                });
+                TableLayout.LayoutParams marginsRows =
                         new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                marginsRows.setMargins(30,30,30,30);
+                marginsRows.setMargins(30, 30, 30, 30);
                 tr.setLayoutParams(marginsRows);
 
                 ImageView image = new ImageView(getContext());
@@ -109,18 +110,18 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
                         .into(image);
 
 
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(400,400);
-                lp.setMargins(0,0,20,0);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(400, 400);
+                lp.setMargins(0, 0, 20, 0);
                 image.setLayoutParams(lp);
 
                 tr.addView(image);
                 TextView tw = new TextView(getContext());
                 tw.setText(anime.getTitle());
                 tw.setSingleLine(false);
-                TableRow.LayoutParams tableRowParams=
+                TableRow.LayoutParams tableRowParams =
                         new TableRow.LayoutParams
                                 (TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                tableRowParams.setMargins(30,150,30,150);
+                tableRowParams.setMargins(30, 150, 30, 150);
                 tw.setLayoutParams(tableRowParams);
 
                 tr.addView(tw);
@@ -132,8 +133,9 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
 
         }
     }
+
     @Override
-    public void onNetworkTaskError(TaskJob job){
+    public void onNetworkTaskError(TaskJob job) {
 
     }
 }

@@ -49,21 +49,22 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
 
         return inflater.inflate(R.layout.anime_fragment, container, false);
     }
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
 
-        new NetworkTask(MALApi.ListType.ANIME,getContext(),this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        new NetworkTask(MALApi.ListType.ANIME, getContext(), this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
         animeTable = (TableLayout) getView().findViewById(R.id.animeTable);
-        animeTable.setColumnShrinkable(1,true);
+        animeTable.setColumnShrinkable(1, true);
 
         swipeContainer = (SwipeRefreshLayout) getView().findViewById(R.id.swipeContainer);
         swipeContainer.setRefreshing(true);
-        final AnimeFragment h=this;
+        final AnimeFragment h = this;
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new NetworkTask(MALApi.ListType.ANIME,h.getContext(),h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+                new NetworkTask(MALApi.ListType.ANIME, h.getContext(), h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
             }
         });
         // Configure the refreshing colors
@@ -71,8 +72,6 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-
 
 
     }
@@ -91,16 +90,15 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
         }
         if (resultList != null) {
             animeList = resultList;
-            for (Anime anime: resultList) {
-                listLimit --;
-                if(listLimit < 0)
-                {
+            for (Anime anime : resultList) {
+                listLimit--;
+                if (listLimit < 0) {
                     break;   /// TODO : Remove listlimit
                 }
                 final TableRow tr = new TableRow(getContext());
-                tr.setOnClickListener( new View.OnClickListener() {
+                tr.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick( View v ) {
+                    public void onClick(View v) {
                         int a = animeTable.indexOfChild(v);
 
                         Intent animeIntent = new Intent(getContext(), DetailsActivity.class);
@@ -108,10 +106,10 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                         animeIntent.putExtra("type", "anime");
                         getContext().startActivity(animeIntent);
                     }
-                } );
-                TableLayout.LayoutParams marginsRows=
+                });
+                TableLayout.LayoutParams marginsRows =
                         new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                marginsRows.setMargins(10,30,10,30);
+                marginsRows.setMargins(10, 30, 10, 30);
                 tr.setLayoutParams(marginsRows);
 
                 ImageView image = new ImageView(getContext());
@@ -121,18 +119,18 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                         .into(image);
 
 
-                TableRow.LayoutParams lp = new TableRow.LayoutParams(400,400);
-                lp.setMargins(0,0,20,0);
+                TableRow.LayoutParams lp = new TableRow.LayoutParams(400, 400);
+                lp.setMargins(0, 0, 20, 0);
                 image.setLayoutParams(lp);
 
                 tr.addView(image);
                 TextView tw = new TextView(getContext());
                 tw.setText(anime.getTitle());
                 tw.setSingleLine(false);
-                TableRow.LayoutParams tableRowParams=
+                TableRow.LayoutParams tableRowParams =
                         new TableRow.LayoutParams
                                 (TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                tableRowParams.setMargins(30,150,30,150);
+                tableRowParams.setMargins(30, 150, 30, 150);
                 tw.setLayoutParams(tableRowParams);
 
                 tr.addView(tw);
@@ -143,8 +141,9 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
             swipeContainer.setRefreshing(false);
         }
     }
+
     @Override
-    public void onNetworkTaskError(TaskJob job){
+    public void onNetworkTaskError(TaskJob job) {
 
     }
 }

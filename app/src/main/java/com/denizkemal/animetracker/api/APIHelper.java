@@ -27,8 +27,8 @@ public class APIHelper {
     /**
      * Init Retrofit client properly.
      *
-     * @param ApiUrl The base API URL
-     * @param Interface The interface class with the request methods
+     * @param ApiUrl     The base API URL
+     * @param Interface  The interface class with the request methods
      * @param permission The Auth permission
      * @return <T> T The created service
      */
@@ -80,30 +80,30 @@ public class APIHelper {
         if (response != null && activity != null) {
             switch (response.code()) {
                 case 400: // Bad Request
-                    Toast.makeText(activity, R.string.toast_error_api,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.toast_error_api, Toast.LENGTH_SHORT).show();
                     break;
                 case 401: // Unauthorized
-                    Toast.makeText(activity, R.string.toast_info_password,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.toast_info_password, Toast.LENGTH_SHORT).show();
                     break;
                 case 404: // Not Found
                     if (methodName.contains("search"))
-                    Toast.makeText(activity, R.string.toast_error_nothingFound,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.toast_error_nothingFound, Toast.LENGTH_SHORT).show();
                     else
-                    Toast.makeText(activity, R.string.toast_error_Records,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
                     break;
                 case 500: // Internal Server Error
-                    Toast.makeText(activity, R.string.toast_error_api,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.toast_error_api, Toast.LENGTH_SHORT).show();
                     break;
                 case 503: // Service Unavailable
                 case 504: // Gateway Timeout
-                    Toast.makeText(activity, R.string.toast_error_maintenance,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.toast_error_maintenance, Toast.LENGTH_SHORT).show();
                     break;
                 default:
-                    Toast.makeText(activity,R.string.toast_error_Records,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.toast_error_Records, Toast.LENGTH_SHORT).show();
                     break;
             }
         } else {
-             e.getMessage();
+            e.getMessage();
         }
         e.printStackTrace();
     }

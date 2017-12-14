@@ -49,7 +49,7 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
         this.callback = callback;
     }
 
-    public NetworkTask(TaskJob job,MALApi.ListType type, Context context, NetworkTaskListener callback) {
+    public NetworkTask(TaskJob job, MALApi.ListType type, Context context, NetworkTaskListener callback) {
         if (type == null || context == null)
             throw new IllegalArgumentException("job, type and context must not be null");
         this.job = job;
@@ -85,12 +85,12 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
     protected Object doInBackground(String... params) {
         boolean isNetworkAvailable = APIHelper.isNetworkAvailable(getContext());
         if (job == null) {
-           return null;
+            return null;
         }
 
         if (!isNetworkAvailable && !job.equals(TaskJob.GETFRIENDLIST) && !job.equals(TaskJob.GETDETAILS)) {
             if (activity != null)
-                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
             return null;
         }
 
@@ -100,10 +100,10 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
 
         taskResult = null;
         MALApi cManager;
-        if (activity!=null){
+        if (activity != null) {
             cManager = new MALApi(activity);
 
-        }else{
+        } else {
             cManager = new MALApi();
         }
 
@@ -156,12 +156,12 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                                     record = cManager.getAnime(data.getInt("recordID", -1), 1);
 
 
-                                    taskResult = record;
+                                taskResult = record;
 
                             } else if (record != null) {
                                 taskResult = record;
                             } else {
-                                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             // Get Manga from database
@@ -170,15 +170,15 @@ public class NetworkTask extends AsyncTask<String, Void, Object> {
                             if (isNetworkAvailable) {
                                 // Get records from the website
                                 if (record == null || record.getImageUrl() == null)
-                                    record = cManager.getManga(data.getInt("recordID", -1),1);
+                                    record = cManager.getManga(data.getInt("recordID", -1), 1);
 
 
-                                    taskResult = record;
+                                taskResult = record;
 
                             } else if (record != null) {
                                 taskResult = record;
                             } else {
-                                Toast.makeText(activity, R.string.toast_error_noConnectivity,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.toast_error_noConnectivity, Toast.LENGTH_SHORT).show();
                             }
                         }
                     break;

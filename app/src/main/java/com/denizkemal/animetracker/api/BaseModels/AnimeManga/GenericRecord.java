@@ -59,7 +59,7 @@ public class GenericRecord implements Serializable {
 
     /**
      * Get the customList.
-     *
+     * <p>
      * Defined as 0 or 1 like 010010100101001
      */
     @Getter
@@ -316,10 +316,10 @@ public class GenericRecord implements Serializable {
         this.customList = customList;
     }
 
-    public String getCustomListAPI(){
+    public String getCustomListAPI() {
         ArrayList<String> finalCustomLists = new ArrayList<>();
         for (int i = 0; i < getCustomList().length(); i++) {
-                finalCustomLists.add(String.valueOf(getCustomList().charAt(i)));
+            finalCustomLists.add(String.valueOf(getCustomList().charAt(i)));
         }
         for (int i = finalCustomLists.size(); i < 15; i++) {
             finalCustomLists.add("0");

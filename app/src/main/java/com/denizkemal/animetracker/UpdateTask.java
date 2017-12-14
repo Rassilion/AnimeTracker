@@ -2,6 +2,7 @@ package com.denizkemal.animetracker;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+
 import com.denizkemal.animetracker.api.APIHelper;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.GenericRecord;

@@ -22,7 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener  {
+public class SearchActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener {
     private TableLayout table;
     private SwipeRefreshLayout swipeContainer;
     public String query;
@@ -33,20 +33,20 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         Intent intent = getIntent();
-        tab = intent.getIntExtra("tab",0);
+        tab = intent.getIntExtra("tab", 0);
 
         SearchView search = (SearchView) findViewById(R.id.searchbar);
         search.setIconified(false);
-        final SearchActivity h=this;
+        final SearchActivity h = this;
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                h.query=query;
+                h.query = query;
                 swipeContainer.setRefreshing(true);
-                if(h.tab==0){
-                    new NetworkTask(TaskJob.SEARCH,MALApi.ListType.ANIME,h,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,query);
-                }else{
-                    new NetworkTask(TaskJob.SEARCH,MALApi.ListType.MANGA,h,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,query);
+                if (h.tab == 0) {
+                    new NetworkTask(TaskJob.SEARCH, MALApi.ListType.ANIME, h, h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+                } else {
+                    new NetworkTask(TaskJob.SEARCH, MALApi.ListType.MANGA, h, h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
                 }
 
                 return false;
@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
         });
 
         table = (TableLayout) findViewById(R.id.table);
-        table.setColumnShrinkable(1,true);
+        table.setColumnShrinkable(1, true);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerSearch);
 
@@ -68,10 +68,10 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if(h.tab==0){
-                    new NetworkTask(TaskJob.SEARCH,MALApi.ListType.ANIME,h,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,query);
-                }else{
-                    new NetworkTask(TaskJob.SEARCH,MALApi.ListType.MANGA,h,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,query);
+                if (h.tab == 0) {
+                    new NetworkTask(TaskJob.SEARCH, MALApi.ListType.ANIME, h, h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
+                } else {
+                    new NetworkTask(TaskJob.SEARCH, MALApi.ListType.MANGA, h, h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query);
                 }
             }
         });
@@ -81,10 +81,11 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
     }
+
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
-       table.removeAllViewsInLayout();
-        if(type.equals(MALApi.ListType.ANIME)) {
+        table.removeAllViewsInLayout();
+        if (type.equals(MALApi.ListType.ANIME)) {
             int listLimit = 50;
             ArrayList<Anime> resultList = null;
             try {
@@ -147,7 +148,7 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
                 }
                 swipeContainer.setRefreshing(false);
             }
-        }else{
+        } else {
             int listLimit = 50;
             ArrayList<Manga> resultList = null;
             try {
@@ -212,8 +213,9 @@ public class SearchActivity extends AppCompatActivity implements NetworkTask.Net
             }
         }
     }
+
     @Override
-    public void onNetworkTaskError(TaskJob job){
+    public void onNetworkTaskError(TaskJob job) {
 
     }
 }

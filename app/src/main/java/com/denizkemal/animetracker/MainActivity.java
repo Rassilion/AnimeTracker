@@ -30,16 +30,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,NetworkTask.NetworkTaskListener  {
+        implements NavigationView.OnNavigationItemSelectedListener, NetworkTask.NetworkTaskListener {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
 
     @Override
     public void onNetworkTaskFinished(Object result, TaskJob job, MALApi.ListType type) {
-        if(job==TaskJob.GETPROFILE) {
+        if (job == TaskJob.GETPROFILE) {
             User.user = (Profile) result;
-            View header=mNavigationView.getHeaderView(0);
-            TextView name = (TextView)header.findViewById(R.id.username_textView);
+            View header = mNavigationView.getHeaderView(0);
+            TextView name = (TextView) header.findViewById(R.id.username_textView);
             ImageView navAvatar = (ImageView) header.findViewById(R.id.imageView);
             name.setText(User.username);
             Picasso.with(header.getContext())
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onNetworkTaskError(TaskJob job){
+    public void onNetworkTaskError(TaskJob job) {
 
     }
 
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -76,8 +75,8 @@ public class MainActivity extends AppCompatActivity
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        View header=mNavigationView.getHeaderView(0);
-        TextView name = (TextView)header.findViewById(R.id.username_textView);
+        View header = mNavigationView.getHeaderView(0);
+        TextView name = (TextView) header.findViewById(R.id.username_textView);
         name.setText(User.username);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
@@ -93,18 +92,19 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(MainActivity.this,SearchActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, SearchActivity.class);
                 int tab = viewPager.getCurrentItem();
-                myIntent.putExtra("tab",tab);
+                myIntent.putExtra("tab", tab);
                 MainActivity.this.startActivity(myIntent);
             }
         });
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-        new NetworkTask(TaskJob.GETPROFILE,MALApi.ListType.ANIME,this,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+        new NetworkTask(TaskJob.GETPROFILE, MALApi.ListType.ANIME, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
 
     }
+
     // Adapter for the viewpager using FragmentPagerAdapter
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

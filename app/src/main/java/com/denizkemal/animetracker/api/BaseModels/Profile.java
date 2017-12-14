@@ -3,7 +3,6 @@ package com.denizkemal.animetracker.api.BaseModels;
 import android.database.Cursor;
 
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -122,7 +121,7 @@ public class Profile implements Serializable {
     public static boolean isDeveloper(String username) {
         if (username == null)
             return false;
-        String[] developers =developersMAL;
+        String[] developers = developersMAL;
         return Arrays.asList(developers).contains(username.toLowerCase(Locale.US));
     }
 

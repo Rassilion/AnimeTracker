@@ -124,9 +124,9 @@ public class Manga extends GenericRecord implements Serializable {
 
     public void setReadStatus(String readStatus) {
         if (this.readStatus == null || !this.readStatus.equals(readStatus)) {
-            if(readStatus!=null) {
+            if (readStatus != null) {
                 this.readStatus = readStatus.toLowerCase();
-            }else{
+            } else {
                 this.readStatus = readStatus;
             }
             if (!fromCursor) {
@@ -227,7 +227,7 @@ public class Manga extends GenericRecord implements Serializable {
         }
 
         // Automatically set the start date on start if it is empty
-        if ((getReadingStart() == null || getReadingStart().equals("") || getReadingStart().equals("0-00-00"))  && started) {
+        if ((getReadingStart() == null || getReadingStart().equals("") || getReadingStart().equals("0-00-00")) && started) {
             //setReadingStart(DateTools.getCurrentDate());
         }
     }
@@ -238,8 +238,8 @@ public class Manga extends GenericRecord implements Serializable {
     public String getStatusString(Activity activity) {
         int array;
         String[] fixedArray;
-            array = R.array.mangaStatus_MAL;
-            fixedArray = activity.getResources().getStringArray(R.array.mangaFixedStatus_MAL);
+        array = R.array.mangaStatus_MAL;
+        fixedArray = activity.getResources().getStringArray(R.array.mangaFixedStatus_MAL);
 
         return getStringFromResourceArray(activity, array, getStatusInt(fixedArray));
     }
@@ -247,7 +247,6 @@ public class Manga extends GenericRecord implements Serializable {
     public String getUserStatusString(Activity activity) {
         return getStringFromResourceArray(activity, R.array.mediaStatus_User, getUserStatusInt(getReadStatus()));
     }
-
 
 
     public int getStatusInt(String[] fixedStatus) {
