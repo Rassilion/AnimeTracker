@@ -23,6 +23,10 @@
                 android:layout_height="wrap_content"
                 android:elevation="0dp"
                 android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
                 android:showDividers="end">
 
                 <ImageView
@@ -83,7 +87,12 @@
                             android:ems="10"
                             android:inputType="text"
                             android:text="@string/LoadingMessage"
-                            android:textAlignment="center" />
+                            android:textAlignment="center"
+                            >
+
+                        </EditText>
+
+
 
                         <TextView
                             android:id="@+id/totalEpisode"

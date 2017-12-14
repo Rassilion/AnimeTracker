@@ -31,7 +31,8 @@
             android:name=".DetailsActivity"
             android:label="@string/title_activity_details"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
