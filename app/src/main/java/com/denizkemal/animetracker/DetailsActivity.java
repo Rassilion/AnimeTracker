@@ -118,6 +118,11 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         Toast.makeText(this, "Added",Toast.LENGTH_SHORT).show();
         System.out.println("Added");
     }
+    public void deleteButtonClicked(View view)
+    {
+        Toast.makeText(this, "Deleted",Toast.LENGTH_SHORT).show();
+        System.out.println("Deleted");
+    }
     public void updateButtonClicked(View view)
     {
         Toast.makeText(this, "Updated",Toast.LENGTH_SHORT).show();
@@ -213,12 +218,16 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Update");
 
+                Button deleteCurrent = (Button)findViewById(R.id.deleteBtn);
+                deleteCurrent.setVisibility(View.VISIBLE);
             }
             else
             {
                 currentAnime.setCreateFlag();
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Add");
+                Button deleteCurrent = (Button)findViewById(R.id.deleteBtn);
+                deleteCurrent.setVisibility(View.GONE);
 
             }
 
@@ -286,12 +295,17 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Update");
 
+                Button deleteCurrent = (Button)findViewById(R.id.deleteBtn);
+                deleteCurrent.setVisibility(View.VISIBLE);
+
             }
             else
             {
                 currentManga.setCreateFlag();
                 Button updateDetails = (Button)findViewById(R.id.updateDetails);
                 updateDetails.setText("Add");
+                Button deleteCurrent = (Button)findViewById(R.id.deleteBtn);
+                deleteCurrent.setVisibility(View.GONE);
 
             }
         }

@@ -109,9 +109,9 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
                         getContext().startActivity(animeIntent);
                     }
                 } );
-                TableRow.LayoutParams marginsRows=
-                        new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                marginsRows.setMargins(0,30,0,30);
+                TableLayout.LayoutParams marginsRows=
+                        new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                marginsRows.setMargins(10,30,10,30);
                 tr.setLayoutParams(marginsRows);
 
                 ImageView image = new ImageView(getContext());
@@ -137,7 +137,7 @@ public class AnimeFragment extends Fragment implements NetworkTask.NetworkTaskLi
 
                 tr.addView(tw);
 
-                animeTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                animeTable.addView(tr);
 
             }
             swipeContainer.setRefreshing(false);

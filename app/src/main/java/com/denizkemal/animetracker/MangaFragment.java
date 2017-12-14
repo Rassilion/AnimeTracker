@@ -97,9 +97,9 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
                         getContext().startActivity(animeIntent);
                     }
                 } );
-                TableRow.LayoutParams marginsRows=
-                        new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                marginsRows.setMargins(0,30,0,30);
+                TableLayout.LayoutParams marginsRows=
+                        new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+                marginsRows.setMargins(30,30,30,30);
                 tr.setLayoutParams(marginsRows);
 
                 ImageView image = new ImageView(getContext());
@@ -125,7 +125,7 @@ public class MangaFragment extends Fragment  implements NetworkTask.NetworkTaskL
 
                 tr.addView(tw);
 
-                mangaTable.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT));
+                mangaTable.addView(tr);
 
             }
             swipeContainer.setRefreshing(false);
