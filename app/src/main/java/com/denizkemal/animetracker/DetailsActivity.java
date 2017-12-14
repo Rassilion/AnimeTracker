@@ -120,8 +120,14 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
     }
     public void deleteButtonClicked(View view)
     {
-        Toast.makeText(this, "Deleted",Toast.LENGTH_SHORT).show();
-        System.out.println("Deleted");
+        if(currentType.equals("anime"))
+        {
+            currentAnime.setDeleteFlag();
+            new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentAnime);
+        }else{
+            currentManga.setDeleteFlag();
+            new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentManga);
+        }
     }
     public void updateButtonClicked(View view)
     {
