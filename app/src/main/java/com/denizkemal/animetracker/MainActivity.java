@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         View header = mNavigationView.getHeaderView(0);
         TextView name = (TextView) header.findViewById(R.id.username_textView);
         name.setText(User.username);
-
+/*
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -101,12 +101,18 @@ public class MainActivity extends AppCompatActivity
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
+        */
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, new myList()).commit();
+
+
         new NetworkTask(TaskJob.GETPROFILE, MALApi.ListType.ANIME, this, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, User.username);
 
     }
 
     // Adapter for the viewpager using FragmentPagerAdapter
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    public class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 
