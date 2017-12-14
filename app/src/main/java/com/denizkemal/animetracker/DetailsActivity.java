@@ -160,23 +160,23 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         if(currentType.equals("anime"))
         {
             currentAnime.setDeleteFlag();
-            new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentAnime);
+            new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,currentAnime);
             Bundle data =new Bundle();
             data.putInt("recordID",currentAnime.getId());
-            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,User.username);
 
         }else{
             currentManga.setDeleteFlag();
-            new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentManga);
+            new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,currentManga);
             Bundle data =new Bundle();
             data.putInt("recordID",currentManga.getId());
-            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR,User.username);
 
         }
     }
     public void updateButtonClicked(View view)
     {
-        Toast.makeText(this, "Updated",Toast.LENGTH_SHORT).show();
+        swipeContainer.setRefreshing(true);
         if(currentType.equals("anime"))
         {
             EditText epsWatched = (EditText)findViewById(R.id.epsSeen);
@@ -186,6 +186,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             currentAnime.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
             currentAnime.setWatchedStatus(statusSpinner.getSelectedItem().toString());
             new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentAnime);
+            onNetworkTaskFinished(currentAnime,TaskJob.GETDETAILS,MALApi.ListType.ANIME);
         }
         else
         {
@@ -196,6 +197,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             currentManga.setScore(Integer.parseInt(yourScore.getSelectedItem().toString()));
             currentManga.setReadStatus(statusSpinner.getSelectedItem().toString());
             new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentManga);
+            onNetworkTaskFinished(currentManga,TaskJob.GETDETAILS,MALApi.ListType.ANIME);
         }
 
     }
