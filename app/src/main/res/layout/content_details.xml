@@ -13,6 +13,11 @@
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swipeContainerDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -351,7 +356,7 @@
 
             </LinearLayout>
         </ScrollView>
-
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
