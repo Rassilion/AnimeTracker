@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -27,7 +28,7 @@ import org.w3c.dom.Text;
 
 
 public class DetailsActivity extends AppCompatActivity implements NetworkTask.NetworkTaskListener {
-
+    private SwipeRefreshLayout swipeContainer;
     public TextView nameLabel;
     public ImageView image;
     public TextView Synopsis;
@@ -57,13 +58,35 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         String s = Integer.toString(a);
         String type = intent.getStringExtra("type");
         currentType = type;
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerDetails);
+        swipeContainer.setRefreshing(true);
+
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         if (type.equals("anime")){
-
-
             currentAnime = (Anime) intent.getSerializableExtra("object");
             Bundle data =new Bundle();
             data.putInt("recordID",currentAnime.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+
+            final DetailsActivity h=this;
+            // Setup refresh listener which triggers new data loading
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    Bundle data =new Bundle();
+                    data.putInt("recordID",currentAnime.getId());
+                    new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,h,data,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+                }
+            });
+
+
+
             if (currentAnime.getStatus() == null)
             {
                 isNew = true;
@@ -89,6 +112,21 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
             Bundle data =new Bundle();
             data.putInt("recordID",currentManga.getId());
             new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+
+            final DetailsActivity h=this;
+            // Setup refresh listener which triggers new data loading
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    Bundle data =new Bundle();
+                    data.putInt("recordID",currentManga.getId());
+                    new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,h,data,h).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+                }
+            });
+
+
             if (currentManga.getStatus() == null)
             {
                 isNew = true;
@@ -113,15 +151,26 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
         }
 
     }
-    public void addButtonClicked(View view)
-    {
-        Toast.makeText(this, "Added",Toast.LENGTH_SHORT).show();
-        System.out.println("Added");
-    }
+
     public void deleteButtonClicked(View view)
     {
-        Toast.makeText(this, "Deleted",Toast.LENGTH_SHORT).show();
-        System.out.println("Deleted");
+        swipeContainer.setRefreshing(true);
+        if(currentType.equals("anime"))
+        {
+            currentAnime.setDeleteFlag();
+            new UpdateTask(MALApi.ListType.ANIME,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentAnime);
+            Bundle data =new Bundle();
+            data.putInt("recordID",currentAnime.getId());
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.ANIME,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+        }else{
+            currentManga.setDeleteFlag();
+            new UpdateTask(MALApi.ListType.MANGA,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,currentManga);
+            Bundle data =new Bundle();
+            data.putInt("recordID",currentManga.getId());
+            new NetworkTask(TaskJob.GETDETAILS,MALApi.ListType.MANGA,this,data,this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,User.username);
+
+        }
     }
     public void updateButtonClicked(View view)
     {
@@ -309,6 +358,7 @@ public class DetailsActivity extends AppCompatActivity implements NetworkTask.Ne
 
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 
     @Override
