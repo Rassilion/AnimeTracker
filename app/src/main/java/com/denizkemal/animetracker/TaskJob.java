@@ -3,19 +3,6 @@ package com.denizkemal.animetracker;
 public enum TaskJob {
     GETPROFILE,
     GETFRIENDLIST,
-    BROWSE,
-    FORCESYNC,
-    GETMOSTPOPULAR,
-    GETMOSTPOPULARS,
-    GETMOSTPOPULARY,
-    GETTOPRATED,
-    GETTOPRATEDS,
-    GETTOPRATEDY,
-    GETJUSTADDED,
-    GETUPCOMING,
     GETDETAILS,
-    UPDATE,
-    REVIEWS,
-    RECOMMENDATION,
     SEARCH
 }

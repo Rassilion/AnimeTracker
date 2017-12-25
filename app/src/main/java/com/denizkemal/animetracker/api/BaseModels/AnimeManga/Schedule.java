@@ -2,7 +2,6 @@ package com.denizkemal.animetracker.api.BaseModels.AnimeManga;
 
 import android.database.Cursor;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;

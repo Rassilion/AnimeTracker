@@ -3,12 +3,9 @@ package com.denizkemal.animetracker.api.BaseModels.AnimeManga;
 import android.app.Activity;
 import android.database.Cursor;
 
-import com.google.gson.annotations.SerializedName;
-
-
 import com.denizkemal.animetracker.R;
-import com.denizkemal.animetracker.api.MALApi;
 import com.denizkemal.animetracker.api.MALModels.RecordStub;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;

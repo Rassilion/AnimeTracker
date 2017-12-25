@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.text.TextUtils;
 
-
 import com.denizkemal.animetracker.R;
-import com.denizkemal.animetracker.api.MALApi;
 import com.denizkemal.animetracker.api.MALModels.RecordStub;
 
 import java.io.Serializable;

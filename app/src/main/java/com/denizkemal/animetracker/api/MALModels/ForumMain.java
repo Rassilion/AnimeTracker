@@ -1,8 +1,7 @@
 package com.denizkemal.animetracker.api.MALModels;
 
-import com.google.gson.annotations.SerializedName;
-
 import com.denizkemal.animetracker.api.BaseModels.Forum;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;

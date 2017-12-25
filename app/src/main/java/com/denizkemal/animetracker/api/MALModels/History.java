@@ -1,10 +1,9 @@
 package com.denizkemal.animetracker.api.MALModels;
 
-import com.google.gson.annotations.SerializedName;
-
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
 import com.denizkemal.animetracker.api.BaseModels.Profile;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;

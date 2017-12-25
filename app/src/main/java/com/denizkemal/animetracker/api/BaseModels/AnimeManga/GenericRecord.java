@@ -7,10 +7,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
-
 import com.denizkemal.animetracker.R;
 import com.denizkemal.animetracker.api.MALModels.RecordStub;
+import com.google.gson.Gson;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -2,8 +2,8 @@ package com.denizkemal.animetracker;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
 
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
 import com.denizkemal.animetracker.api.MALApi;

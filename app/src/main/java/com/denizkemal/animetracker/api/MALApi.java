@@ -1,28 +1,17 @@
 package com.denizkemal.animetracker.api;
 
 import android.app.Activity;
-import android.util.Log;
-
 
 import com.denizkemal.animetracker.User;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Anime;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Manga;
-import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Reviews;
-import com.denizkemal.animetracker.api.BaseModels.AnimeManga.Schedule;
 import com.denizkemal.animetracker.api.BaseModels.AnimeManga.UserList;
 import com.denizkemal.animetracker.api.BaseModels.Profile;
 import com.denizkemal.animetracker.api.MALModels.AnimeManga.AnimeList;
 import com.denizkemal.animetracker.api.MALModels.AnimeManga.MangaList;
-import com.denizkemal.animetracker.api.MALModels.ForumMain;
-import com.denizkemal.animetracker.api.MALModels.Friend;
-import com.denizkemal.animetracker.api.MALModels.History;
-import com.denizkemal.animetracker.api.MALModels.Recommendations;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.Credentials;
@@ -76,7 +65,7 @@ public class MALApi {
         map.put("page", String.valueOf(page));
         map.put("genre_type", "1");
         map.put("genres", "Hentai");
-        return getBrowseAnime(checkNSFW(map));
+        return getBrowseAnime(map);
 
     }
 
@@ -87,7 +76,7 @@ public class MALApi {
         map.put("page", String.valueOf(page));
         map.put("genre_type", "1");
         map.put("genres", "Hentai");
-        return getBrowseManga(checkNSFW(map));
+        return getBrowseManga(map);
 
     }
 
@@ -240,91 +229,6 @@ public class MALApi {
         }
     }
 
-    private HashMap<String, String> checkNSFW(HashMap<String, String> map) {
-
-        return map;
-    }
-
-    public ArrayList<Anime> getMostPopularAnime(int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = APIservice.getPopularAnime(page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getMostPopularAnime: page =" + page, e);
-            return null;
-        }
-    }
-
-    public ArrayList<Manga> getMostPopularManga(int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = APIservice.getPopularManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getMostPopularManga: page =" + page, e);
-            return null;
-        }
-    }
-
-    public ArrayList<Anime> getTopRatedAnime(int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Anime>> response = null;
-        try {
-            response = APIservice.getTopRatedAnime(page).execute();
-            return AnimeList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getTopRatedAnime: page =" + page, e);
-            return null;
-        }
-    }
-
-    public ArrayList<Manga> getTopRatedManga(int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Manga>> response = null;
-        try {
-            response = APIservice.getTopRatedManga(page).execute();
-            return MangaList.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getTopRatedManga: page =" + page, e);
-            return null;
-        }
-    }
-
-    public ArrayList<Anime> getJustAddedAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "9");
-        map.put("reverse", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getJustAddedManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "9");
-        map.put("reverse", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
-    }
-
-    public ArrayList<Anime> getUpcomingAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        map.put("sort", "2");
-        map.put("reverse", "0");
-        map.put("start_date", sdf.format(new Date()));
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getUpcomingManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        map.put("sort", "2");
-        map.put("reverse", "0");
-        map.put("start_date", sdf.format(new Date()));
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
-    }
-
     public Profile getProfile(String user) {
         Response<com.denizkemal.animetracker.api.MALModels.Profile> response = null;
         try {
@@ -334,248 +238,6 @@ public class MALApi {
             APIHelper.logE(activity, response, "MALApi", "getProfile", e);
             return null;
         }
-    }
-
-    public ArrayList<Profile> getFriends(String user) {
-        Response<ArrayList<Friend>> response = null;
-        try {
-            response = APIservice.getFriends(user).execute();
-            return Friend.convertBaseFriendList(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getFriends", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public ForumMain getForum() {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getForum().execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getForum", e);
-            return null;
-        }
-    }
-
-    public ForumMain getCategoryTopics(int id, int page) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getCategoryTopics(id, page).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getCategoryTopics", e);
-            return null;
-        }
-    }
-
-    public ForumMain getForumAnime(int id, int page) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getForumAnime(id, page).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getForumAnime", e);
-            return null;
-        }
-    }
-
-    public ForumMain getForumManga(int id, int page) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getForumManga(id, page).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getForumManga", e);
-            return null;
-        }
-    }
-
-    public ForumMain getPosts(int id, int page) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getPosts(id, page).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getPosts", e);
-            return null;
-        }
-    }
-
-    public ForumMain getSubBoards(int id, int page) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.getSubBoards(id, page).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getSubBoards", e);
-            return null;
-        }
-    }
-
-    public boolean addComment(int id, String message) {
-        return APIHelper.isOK(APIservice.addComment(id, message), "addComment");
-    }
-
-    public boolean updateComment(int id, String message) {
-        return APIHelper.isOK(APIservice.updateComment(id, message), "updateComment");
-    }
-
-    public boolean addTopic(int id, String title, String message) {
-        return APIHelper.isOK(APIservice.addTopic(id, title, message), "addTopic");
-    }
-
-    public ForumMain search(String query) {
-        Response<ForumMain> response = null;
-        try {
-            response = APIservice.search(query).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "search", e);
-            return null;
-        }
-    }
-
-    public ArrayList<Reviews> getAnimeReviews(int id, int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Reviews>> response = null;
-        try {
-            response = APIservice.getAnimeReviews(id, page).execute();
-            return com.denizkemal.animetracker.api.MALModels.AnimeManga.Reviews.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getAnimeReviews", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Reviews> getMangaReviews(int id, int page) {
-        Response<ArrayList<com.denizkemal.animetracker.api.MALModels.AnimeManga.Reviews>> response = null;
-        try {
-            response = APIservice.getMangaReviews(id, page).execute();
-            return com.denizkemal.animetracker.api.MALModels.AnimeManga.Reviews.convertBaseArray(response.body());
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getMangaReviews", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<com.denizkemal.animetracker.api.BaseModels.History> getActivity(String username) {
-        Response<ArrayList<History>> response = null;
-        try {
-            response = APIservice.getActivity(username).execute();
-            return History.convertBaseHistoryList(response.body(), username);
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getActivity", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Recommendations> getAnimeRecs(int id) {
-        Response<ArrayList<Recommendations>> response = null;
-        try {
-            response = APIservice.getAnimeRecs(id).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getAnimeRecs", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public ArrayList<Recommendations> getMangaRecs(int id) {
-        Response<ArrayList<Recommendations>> response = null;
-        try {
-            response = APIservice.getMangaRecs(id).execute();
-            return response.body();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getMangaRecs", e);
-            return new ArrayList<>();
-        }
-    }
-
-    public Schedule getSchedule() {
-        Response<com.denizkemal.animetracker.api.MALModels.AnimeManga.Schedule> response = null;
-        try {
-            response = APIservice.getSchedule().execute();
-            return response.body().convertBaseSchedule();
-        } catch (Exception e) {
-            APIHelper.logE(activity, response, "MALApi", "getSchedule", e);
-            return new Schedule();
-        }
-    }
-
-    public ArrayList<Anime> getPopularSeasonAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("status", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getPopularSeasonManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("status", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
-    }
-
-    public ArrayList<Anime> getPopularYearAnime(int page) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("start_date", sdf.format(new Date()) + "-01-01");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getPopularYearManga(int page) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "7");
-        map.put("reverse", "1");
-        map.put("start_date", sdf.format(new Date()) + "-01-01");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
-    }
-
-    public ArrayList<Anime> getTopSeasonAnime(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("status", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getTopSeasonManga(int page) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("status", "1");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
-    }
-
-    public ArrayList<Anime> getTopYearAnime(int page) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("start_date", sdf.format(new Date()) + "-01-01");
-        map.put("page", String.valueOf(page));
-        return getBrowseAnime(checkNSFW(map));
-    }
-
-    public ArrayList<Manga> getTopYearManga(int page) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("sort", "3");
-        map.put("reverse", "1");
-        map.put("start_date", sdf.format(new Date()) + "-01-01");
-        map.put("page", String.valueOf(page));
-        return getBrowseManga(checkNSFW(map));
     }
 
     public enum ListType {
